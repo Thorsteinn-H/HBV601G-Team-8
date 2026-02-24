@@ -22,7 +22,8 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemTransformBinding
  * the [RecyclerView] using LinearLayoutManager in a small screen
  * and shows items using GridLayoutManager in a large screen.
  */
-class TransformFragment : Fragment() {
+class
+TransformFragment : Fragment() {
 
     private var _binding: FragmentTransformBinding? = null
 
