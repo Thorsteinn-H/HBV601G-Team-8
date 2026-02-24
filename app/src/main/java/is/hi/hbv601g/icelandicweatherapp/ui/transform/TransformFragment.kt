@@ -43,7 +43,9 @@ TransformFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Trigger API call
         viewModel.loadAlerts()
+        // observe liveData from viewModel
         viewModel.alerts.observe(viewLifecycleOwner){ alerts ->
             binding.textSlideshow.text =
                 if(alerts.isNotEmpty()){
