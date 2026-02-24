@@ -46,11 +46,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    //handles  urls,headers,paths
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    //converts JSON from API to kotlin objects
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    //run network calls of the main thread, safely
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
