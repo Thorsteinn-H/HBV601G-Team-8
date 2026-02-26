@@ -1,4 +1,4 @@
-package `is`.hi.hbv601g.icelandicweatherapp.ui.reflow
+package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentReflowBinding
+import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 
-class ReflowFragment : Fragment() {
+class LocationsFragment : Fragment() {
 
-    private var _binding: FragmentReflowBinding? = null
+    private var _binding: FragmentLocationsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class ReflowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val reflowViewModel =
-            ViewModelProvider(this).get(ReflowViewModel::class.java)
+        val locationsViewModel =
+            ViewModelProvider(this).get(LocationsViewModel::class.java)
 
-        _binding = FragmentReflowBinding.inflate(inflater, container, false)
+        _binding = FragmentLocationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textReflow
-        reflowViewModel.text.observe(viewLifecycleOwner) {
+        locationsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
