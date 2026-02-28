@@ -25,7 +25,7 @@ class LocationsViewModel : ViewModel() {
 
     fun loadForecasts(region:Int,dayFrom:String,dayTo:String){
         viewModelScope.launch {
-            val response = vedurApi.getForecastByDay(region, dayFrom, dayTo)
+            val response = vedurApi.getForecastToday(region, dayFrom, dayTo)
             Log.d("LocationsViewModel", "API response: $response")
             if (response.body() != null){
                 _forecast.value = response.body()!!

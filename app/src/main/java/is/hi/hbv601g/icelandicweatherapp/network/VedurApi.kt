@@ -25,8 +25,8 @@ interface VedurApi {
     /***
      * Get weather forecast for specific days
      */
-    @GET("weather/observations/aws/day")
-    suspend fun getForecastByDay(
+    @GET("weather/observations/aws/hour/latest")
+    suspend fun getForecastToday(
         @Query("region_id") region: Int,
         @Query("day_from") dayFrom:String,
         @Query("day_to") dayTo:String,
