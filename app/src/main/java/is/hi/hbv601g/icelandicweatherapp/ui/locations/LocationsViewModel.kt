@@ -1,7 +1,5 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
-import android.util.Log
-import androidx.constraintlayout.motion.utils.ViewState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class LocationsViewModel : ViewModel() {
     //Logic hér sem notar api til að sækja
-    private val vedurApi=ApiClient.api;
+    private val vedurApi=ApiClient.api
 
     private val _forecast = MutableLiveData<List<ForecastDto>>()
     val forecast: LiveData<List<ForecastDto>> = _forecast

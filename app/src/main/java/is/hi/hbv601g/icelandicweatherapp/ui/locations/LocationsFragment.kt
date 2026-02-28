@@ -1,7 +1,5 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
-import java.util.Locale
 import kotlin.getValue
 
 class LocationsFragment : Fragment() {
@@ -57,16 +54,16 @@ class LocationsFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerRegion.adapter = adapter
 
-        binding.spinnerRegion.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val regionId = regions[position].second
                 viewModel.loadForecasts(regionId)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                //Þarf að  hafa svo error kemur ekki
+                //Þarf að hafa svo error kemur ekki en held að það er ekkert sem þarf hér
             }
-        })
+        }
 
         viewModel.forecast.observe(viewLifecycleOwner) { list ->
             locationsAdapter.updateList(list)
