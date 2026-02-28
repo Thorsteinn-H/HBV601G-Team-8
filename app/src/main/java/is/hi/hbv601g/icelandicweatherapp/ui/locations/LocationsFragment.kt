@@ -2,24 +2,16 @@ package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.getValue
 
@@ -68,12 +60,11 @@ class LocationsFragment : Fragment() {
         binding.spinnerRegion.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val regionId = regions[position].second
-                val todayString = getToday()
-                viewModel.loadForecasts(regionId, todayString, todayString)
+                viewModel.loadForecasts(regionId)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                //Þarf að  hafa
+                //Þarf að  hafa svo error kemur ekki
             }
         })
 
@@ -87,11 +78,4 @@ class LocationsFragment : Fragment() {
         _binding = null
     }
 
-    fun getToday(): String {
-        val date = Calendar.getInstance()
-        val form = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val todayString = form.format(date.time)
-        return todayString;
-
-    }
 }

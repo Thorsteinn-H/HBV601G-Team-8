@@ -28,12 +28,6 @@ interface VedurApi {
     @GET("weather/observations/aws/hour/latest")
     suspend fun getForecastToday(
         @Query("region_id") region: Int,
-        @Query("day_from") dayFrom:String,
-        @Query("day_to") dayTo:String,
         @Query("parameters") parameters: String="basic",
-        @Query("format")format: String="json",
-        @Query("locale") locale: String ="is",
-        @Query("order") order: String="asc",
-        @Query("count") count:Int=1
     ): Response<List<ForecastDto>>
 }
