@@ -14,7 +14,8 @@ object ApiClient {
      * Base URL = https://api.vedur.is/cap/v1/
      *
      */
-    private const val BASE_URL = "https://api.vedur.is/cap/v1/"
+    private const val BASE_URL = "https://api.vedur.is"
+
 
     /**
      * lazy means its not created until api is accesssed the first time
