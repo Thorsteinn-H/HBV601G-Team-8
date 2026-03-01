@@ -21,7 +21,12 @@
         android:id="@+id/nav_slideshow"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.user.UserFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user">
+
+        <action
+            android:id="@+id/action_locationsFragment_to_locationDetailsFragment"
+            app:destination="@id/locationDetailsFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
@@ -35,5 +40,24 @@
         android:label="Forecast"
         tools:layout="@layout/fragment_locations" />
 
+    <fragment
+        android:id="@+id/locationDetailsFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.locations.LocationDetailsFragment"
+        android:label="Forecast"
+        tools:layout="@layout/fragment_location_details">
+
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+
+    </fragment>
 
 </navigation>

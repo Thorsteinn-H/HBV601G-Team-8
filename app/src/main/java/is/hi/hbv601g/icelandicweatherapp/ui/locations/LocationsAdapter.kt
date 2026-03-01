@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 
-class LocationsAdapter :
-    ListAdapter<CurrentLocationWeather, LocationsAdapter.ForecastViewHolder>(DiffCallback) {
+class LocationsAdapter(
+    private val onItemClick: (CurrentLocationWeather) -> Unit
+) : ListAdapter<CurrentLocationWeather, LocationsAdapter.ForecastViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder{
         val binding = ItemLocationsBinding.inflate(
@@ -21,7 +22,7 @@ class LocationsAdapter :
             parent,
             false
         )
-        return ForecastViewHolder(binding)
+        return ForecastViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
@@ -29,7 +30,8 @@ class LocationsAdapter :
     }
 
     class ForecastViewHolder(
-        private val binding: ItemLocationsBinding
+        private val binding: ItemLocationsBinding,
+        private val onItemClick: (CurrentLocationWeather) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: CurrentLocationWeather){
@@ -41,6 +43,10 @@ class LocationsAdapter :
                 "Wind: ${item.windSpeed ?: "N/A"}"
             binding.textPrecipitation.text =
                 "Precipitation: ${item.precipitation ?: "N/A"} mm"
+
+            binding.root.setOnClickListener {
+                onItemClick(item)
+            }
         }
     }
 

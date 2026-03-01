@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import  `is`.hi.hbv601g.icelandicweatherapp.R
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
+import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import kotlin.getValue
 
 class LocationsFragment : Fragment() {
@@ -46,7 +50,20 @@ class LocationsFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        locationsAdapter = LocationsAdapter()
+        locationsAdapter = LocationsAdapter{ selectedItem ->
+            val location = IcelandLocations.majorIcelandLocation.first{
+                it.name == selectedItem.locationName
+            }
+            val bundle = bundleOf(
+                    "locationName" to location.name,
+                    "latitude" to location.latitude.toFloat(),
+                    "longitude" to location.longitude.toFloat()
+                )
+            findNavController().navigate(
+                R.id.locationDetailsFragment,
+                bundle
+            )
+        }
 
         binding.recyclerViewLocations.apply{
             layoutManager = LinearLayoutManager(requireContext())
