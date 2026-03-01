@@ -16,6 +16,11 @@ object ApiClient {
      */
     private const val BASE_URL = "https://api.vedur.is"
 
+    /**
+     * Sunset URL = https://api.sunrise-sunset.org
+     *
+     */
+    private const val SUN_URL = "https://api.sunrise-sunset.org"
 
     /**
      * lazy means its not created until api is accesssed the first time
@@ -28,5 +33,15 @@ object ApiClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(VedurApi::class.java)
+    }
+
+    val sunApi: SunApi by lazy{
+        Retrofit.Builder()
+        .baseUrl(SUN_URL)
+        //converter for JSON into Kotlin data classes
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(SunApi::class.java)
+
     }
 }
