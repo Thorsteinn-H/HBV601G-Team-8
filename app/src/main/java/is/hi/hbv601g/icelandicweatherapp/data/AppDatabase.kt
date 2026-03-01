@@ -4,11 +4,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [UserDto::class, AlertDto::class], version = 2)
+@Database(
+    entities = [
+        UserDto::class,
+        AlertDto::class,
+        ForecastDto::class],
+    version = 3)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getUserDao(): UserDao
     abstract fun getAlertDao(): AlertDao
+    abstract fun getForecastDao(): ForecastDao
 
     companion object {
         @Volatile
@@ -20,7 +26,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "userdb"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

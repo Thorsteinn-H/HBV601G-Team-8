@@ -14,7 +14,7 @@ import retrofit2.http.GET
  *  what HTTP method they use
  *  what data type they return
  */
-interface VedurApi {
+interface VedurAlertsApi {
     /**
      * Get all active weather alerts wiht detail
      * @return List of active alerts (may be empty)

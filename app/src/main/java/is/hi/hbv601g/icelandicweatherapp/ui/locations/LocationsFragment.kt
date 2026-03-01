@@ -1,6 +1,7 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,55 +19,45 @@ class LocationsFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel: LocationsViewModel by viewModels()
+    private val viewModel: LocationsViewModel by viewModels {
+        LocationsViewModelFactory(requireActivity().application)
+    }
 
-    private lateinit var locationsAdapter: LocationsAdapter
-
-    private val regions = listOf("Höfuðborgarsvæðið" to 1, "Suðurland" to 2, "Faxaflói" to 3,
-        "Breiðafjörður" to 4, "Vestfirðir" to 5, "Strandir og norðurland vestra" to 6, "Norðurland eystra" to 7,
-        "Austurland að Glettingi" to 8, "Austfirðir" to 9, "Suðausturland" to 10, "Miðhálendi" to 11)
-
+    private lateinit var forecastAdapter: LocationsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentLocationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        locationsAdapter= LocationsAdapter(emptyList())
+        super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerForecast.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = locationsAdapter
-        }
-
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            regions.map { it.first }
+        setupRecyclerView()
+        observeViewModel()
+        Log.e("TEST", "calling loadForecast()")
+        viewModel.loadForecasts(
+            latitude = 64.1466,
+            longitude = -21.9426
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerRegion.adapter = adapter
+    }
 
-        binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val regionId = regions[position].second
-                viewModel.loadForecasts(regionId)
-            }
+    private fun setupRecyclerView(){
+        forecastAdapter = LocationsAdapter()
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                //Þarf að hafa svo error kemur ekki en held að það er ekkert sem þarf hér
-            }
+        binding.recyclerViewLocations.apply{
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = forecastAdapter
         }
+    }
 
-        viewModel.forecast.observe(viewLifecycleOwner) { list ->
-            locationsAdapter.updateList(list)
+    private fun observeViewModel() {
+        viewModel.forecasts.observe(viewLifecycleOwner){ forecasts ->
+            forecastAdapter.submitList(forecasts)
         }
     }
 
