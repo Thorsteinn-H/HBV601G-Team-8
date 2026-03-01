@@ -45,7 +45,7 @@ data class InstantDetails(
     @SerializedName("air_temperature")
     val airTemperature: Double?,
     // meters per second
-    @SerializedName("Wind_speed")
+    @SerializedName("wind_speed")
     val windSpeed: Double?
 )
 

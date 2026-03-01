@@ -8,10 +8,15 @@ import `is`.hi.hbv601g.icelandicweatherapp.network.ForecastResponse
  */
 fun ForecastResponse.toForecastDtos(): List<ForecastDto> {
     return properties.timeseries.map { series ->
+
+        val instantDetails = series.data.instant.details
         ForecastDto(
             time = series.time,
-            temperature = series.data.instant.details.airTemperature,
-            windSpeed = series.data.instant.details.windSpeed,
+            //always available
+            temperature = instantDetails.airTemperature,
+            windSpeed = instantDetails.windSpeed,
+
+            //optional
             precipitation = series.data.next1Hours?.details?.precipitationAmount,
             symbolCode = series.data.next1Hours?.summary?.symbolCode
         )

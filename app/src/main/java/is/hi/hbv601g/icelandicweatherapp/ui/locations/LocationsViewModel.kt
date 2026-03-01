@@ -9,8 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.AppDatabase
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
+import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
+import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
+import `is`.hi.hbv601g.icelandicweatherapp.model.TimeUtils
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 import `is`.hi.hbv601g.icelandicweatherapp.repository.ForecastRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 
@@ -20,21 +25,48 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val repository = ForecastRepository(forecastDao)
 
-    private val _forecasts = MutableLiveData<List<ForecastDto>>()
-    val forecasts: LiveData<List<ForecastDto>> = _forecasts
+    private val _currentWeather =
+        MutableLiveData<List<CurrentLocationWeather>>()
 
-    fun loadForecasts(latitude: Double, longitude: Double){
-        Log.e("LocationsVM", "loadForecast called")
+    val currentWeather: LiveData<List<CurrentLocationWeather>> = _currentWeather
+
+    fun loadCurrentWeatherForAllLocations(){
+
         viewModelScope.launch {
-            try{
-                repository.refreshForecast(latitude, longitude)
-                val forecasts = repository.loadForecasts()
-                Log.d("LocationsVM", "Forecast count: ${forecasts.size}")
-                _forecasts.value = forecasts
-            } catch(e: Exception) {
-                Log.e("LocationsVM", "error loading forecast", e)
-                _forecasts.value = emptyList()
-            }
+
+            val hourPrefix = TimeUtils.currentUtcHour()
+            val results = IcelandLocations.majorIcelandLocation.map { location ->
+
+                async {
+                    try{
+                        repository.refreshForecast(
+                            location.latitude,
+                            location.longitude
+                        )
+
+                        val forecasts = repository.loadForecasts()
+
+                        val current = forecasts.firstOrNull{
+                            it.time.startsWith(hourPrefix)
+                        }
+
+                        CurrentLocationWeather(
+                            locationName = location.name,
+                            temperature = current?.temperature,
+                            windSpeed = current?.windSpeed,
+                            precipitation = current?.precipitation
+                        )
+                    } catch (e: Exception) {
+                        CurrentLocationWeather(
+                            locationName = location.name,
+                            temperature = null,
+                            windSpeed = null,
+                            precipitation = null
+                        )
+                    }
+                }
+            }.awaitAll()
+            _currentWeather.value = results
         }
     }
 }

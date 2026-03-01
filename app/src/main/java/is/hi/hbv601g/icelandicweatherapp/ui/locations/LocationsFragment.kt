@@ -23,7 +23,7 @@ class LocationsFragment : Fragment() {
         LocationsViewModelFactory(requireActivity().application)
     }
 
-    private lateinit var forecastAdapter: LocationsAdapter
+    private lateinit var locationsAdapter: LocationsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,26 +38,25 @@ class LocationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        observeViewModel()
-        Log.e("TEST", "calling loadForecast()")
-        viewModel.loadForecasts(
-            latitude = 64.1466,
-            longitude = -21.9426
-        )
+        viewModel.currentWeather.observe(viewLifecycleOwner) {
+            locationsAdapter.submitList(it)
+        }
+
+        viewModel.loadCurrentWeatherForAllLocations()
     }
 
     private fun setupRecyclerView(){
-        forecastAdapter = LocationsAdapter()
+        locationsAdapter = LocationsAdapter()
 
         binding.recyclerViewLocations.apply{
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = forecastAdapter
+            adapter = locationsAdapter
         }
     }
 
     private fun observeViewModel() {
-        viewModel.forecasts.observe(viewLifecycleOwner){ forecasts ->
-            forecastAdapter.submitList(forecasts)
+        viewModel.currentWeather.observe(viewLifecycleOwner){ items ->
+            locationsAdapter.submitList(items)
         }
     }
 

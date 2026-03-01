@@ -15,8 +15,8 @@ data class ForecastDto(
     val time: String,
 
     val temperature: Double?,
-    val precipitation: Double?,
     val windSpeed: Double?,
+    val precipitation: Double?,
     //weather symbol code
     val symbolCode: String?
 )

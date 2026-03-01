@@ -10,9 +10,10 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemLocationsBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
+import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 
 class LocationsAdapter :
-    ListAdapter<ForecastDto, LocationsAdapter.ForecastViewHolder>(DiffCallback) {
+    ListAdapter<CurrentLocationWeather, LocationsAdapter.ForecastViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder{
         val binding = ItemLocationsBinding.inflate(
@@ -31,25 +32,26 @@ class LocationsAdapter :
         private val binding: ItemLocationsBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(forecast: ForecastDto){
-            binding.textTime.text = forecast.time
+        fun bind(item: CurrentLocationWeather){
+            binding.textLocationName.text = item.locationName
 
             binding.textTemperature.text =
-                "Temperature: ${forecast.temperature ?: "-"} °C"
-
+                "Temperature: ${item.temperature ?: "N/A"} °C"
+            binding.textWind.text =
+                "Wind: ${item.windSpeed ?: "N/A"}"
             binding.textPrecipitation.text =
-                "Precipitation: ${forecast.precipitation ?: "-"} mm"
+                "Precipitation: ${item.precipitation ?: "N/A"} mm"
         }
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<ForecastDto>(){
+        private val DiffCallback = object : DiffUtil.ItemCallback<CurrentLocationWeather>(){
 
-            override fun areItemsTheSame(oldItem: ForecastDto, newItem: ForecastDto): Boolean {
-                return oldItem.id == newItem.id
+            override fun areItemsTheSame(oldItem: CurrentLocationWeather, newItem: CurrentLocationWeather): Boolean {
+                return oldItem.locationName == newItem.locationName
             }
 
-            override fun areContentsTheSame(oldItem: ForecastDto, newItem: ForecastDto): Boolean {
+            override fun areContentsTheSame(oldItem: CurrentLocationWeather, newItem: CurrentLocationWeather): Boolean {
                 return oldItem == newItem
             }
         }
