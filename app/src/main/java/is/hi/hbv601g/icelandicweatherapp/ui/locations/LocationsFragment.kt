@@ -17,6 +17,12 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import kotlin.getValue
 
+/**
+ * Fragment responsible for displaying the list of locations
+ *
+ * observesa LocationsViewModel
+ * Handles navigation to LocationDetailsFragment when a location is clicked
+ */
 class LocationsFragment : Fragment() {
 
     private var _binding: FragmentLocationsBinding? = null
@@ -50,10 +56,13 @@ class LocationsFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
+        //adapter with click callback
         locationsAdapter = LocationsAdapter{ selectedItem ->
+            //find the full location object by matching name
             val location = IcelandLocations.majorIcelandLocation.first{
                 it.name == selectedItem.locationName
             }
+            // create a bundle to pass data
             val bundle = bundleOf(
                     "locationName" to location.name,
                     "latitude" to location.latitude.toFloat(),
@@ -71,6 +80,9 @@ class LocationsFragment : Fragment() {
         }
     }
 
+    /**
+     * currently unused, could be used instead of observing inline
+     */
     private fun observeViewModel() {
         viewModel.currentWeather.observe(viewLifecycleOwner){ items ->
             locationsAdapter.submitList(items)

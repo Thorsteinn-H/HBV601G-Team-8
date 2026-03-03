@@ -8,9 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemForecastBinding
 
+/**
+ * RecyclerView Adaptar responsible for displaying the full forecast for a selected location
+ *
+ *
+ */
 class ForecastAdapter :
     ListAdapter<ForecastDto, ForecastAdapter.ForecastViewHolder>(DiffCallback) {
 
+    /**
+     * creates a new ViewHolder when RecyclerView needs one
+     */
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,6 +35,9 @@ class ForecastAdapter :
         holder.bind(getItem(position))
     }
 
+    /**
+     * ViewHolder representing one forecast row
+     */
     class ForecastViewHolder(
         private val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {

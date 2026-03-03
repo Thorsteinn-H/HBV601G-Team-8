@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 
+/**
+ * RecyclerView adapter for displaying current weather for all
+ * icelandic locations
+ */
 class LocationsAdapter(
     private val onItemClick: (CurrentLocationWeather) -> Unit
 ) : ListAdapter<CurrentLocationWeather, LocationsAdapter.ForecastViewHolder>(DiffCallback) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder{
         val binding = ItemLocationsBinding.inflate(
@@ -22,6 +27,7 @@ class LocationsAdapter(
             parent,
             false
         )
+        // pass click callback down to ViewHolder
         return ForecastViewHolder(binding, onItemClick)
     }
 
@@ -29,6 +35,9 @@ class LocationsAdapter(
         holder.bind(getItem(position))
     }
 
+    /**
+     * ViewHolder representin one row, one location
+     */
     class ForecastViewHolder(
         private val binding: ItemLocationsBinding,
         private val onItemClick: (CurrentLocationWeather) -> Unit

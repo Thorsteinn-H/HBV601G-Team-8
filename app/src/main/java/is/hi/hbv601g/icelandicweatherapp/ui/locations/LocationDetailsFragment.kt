@@ -10,6 +10,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 
+/**
+ * fragemnt responsible for displaying the full forecast for a selected location
+ *
+ * Recieves location name + coordinates, loads forecast from ViewModel
+ */
 class LocationDetailsFragment : Fragment() {
 
     private var _binding: FragmentLocationsBinding? = null
@@ -28,6 +33,8 @@ class LocationDetailsFragment : Fragment() {
         _binding = FragmentLocationsBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

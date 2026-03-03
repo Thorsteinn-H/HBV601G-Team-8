@@ -10,6 +10,10 @@ import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.repository.ForecastRepository
 import kotlinx.coroutines.launch
 
+/**
+ * Resposible for loading and exposing the full forecast
+ * for a single location
+ */
 class LocationDetailsViewModel(
     application: Application
 ) : AndroidViewModel(application) {
@@ -22,6 +26,7 @@ class LocationDetailsViewModel(
 
     val forecasts: LiveData<List<ForecastDto>> = _forecasts
 
+    //loads the full forecast for the given lat- and longitude
     fun loadForecast(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             repository.refreshForecast(latitude, longitude)
