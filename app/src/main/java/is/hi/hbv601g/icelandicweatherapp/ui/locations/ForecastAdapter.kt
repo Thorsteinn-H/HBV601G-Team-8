@@ -41,20 +41,31 @@ class ForecastAdapter :
     class ForecastViewHolder(
         private val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        // populates the UI elements with forecast data
         fun bind(forecast: ForecastDto) {
+
+            //display the forecast timestamp
             binding.textTime.text = forecast.time
 
+            //display temperature in celsius
             binding.textTemperature.text =
                 forecast.temperature?.let { "Temperature $it °C" } ?: "Temperature: N/A"
+
+            //display wind speed in meters per second
             binding.textWind.text =
                 forecast.windSpeed?.let { "Wind: $it m/s" } ?: "Wind: N/A"
 
+            // Display percipitation in millimeters
             binding.textPrecipitation.text =
                 forecast.precipitation?.let { "Precipitation: $it mm" } ?: "Precipitation: N/A"
         }
     }
 
     companion object {
+        /**
+         * diffutil callback used by ListAdapter to determin
+         * what items have chaneged
+         */
         private val DiffCallback = object : DiffUtil.ItemCallback<ForecastDto>(){
             override fun areItemsTheSame(oldItem: ForecastDto, newItem: ForecastDto): Boolean {
                 return oldItem.id == newItem.id

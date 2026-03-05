@@ -18,12 +18,16 @@ class LocationDetailsViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
+    // access ForecastDAO from the Room database
     private val forecastDao = AppDatabase.getDatabase(application).getForecastDao()
 
+    //Repository handles communication with the API and Database
     private val repository = ForecastRepository(forecastDao)
 
+    // Internal mutable LiveData storing the forecast list
     private val _forecasts = MutableLiveData<List<ForecastDto>>()
 
+    // public immutable LiveData observed by the UI
     val forecasts: LiveData<List<ForecastDto>> = _forecasts
 
     //loads the full forecast for the given lat- and longitude

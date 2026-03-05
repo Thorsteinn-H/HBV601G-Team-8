@@ -28,7 +28,9 @@ class ForecastRepository(
         //convert API response to list fo ForecastDto
         val forecasts: List<ForecastDto> = response.toForecastDtos()
 
+        // cleares forecast
         forecastDao.clearForecasts()
+        // loads with new forecasts
         forecastDao.insertForecasts(forecasts)
     }
 

@@ -24,14 +24,17 @@ import kotlinx.coroutines.launch
  */
 class LocationsViewModel(application: Application) : AndroidViewModel(application) {
 
+    // access ForecastDao from Room db
     private val forecastDao = AppDatabase.getDatabase(application).getForecastDao()
 
     //Repository handles API calls and database operations
     private val repository = ForecastRepository(forecastDao)
 
+    //mutable LiceData holding the current weather for all locations
     private val _currentWeather =
         MutableLiveData<List<CurrentLocationWeather>>()
 
+    // public immutable LiveData observed by the UI
     val currentWeather: LiveData<List<CurrentLocationWeather>> = _currentWeather
 
     /**
@@ -44,18 +47,23 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
         viewModelScope.launch {
 
+            // get the cureent hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
+            // fetch forecasts for all Icelandic Locations
             val results = IcelandLocations.majorIcelandLocation.map { location ->
 
                 async {
                     try{
+                        //refresh forecast data from the API
                         repository.refreshForecast(
                             location.latitude,
                             location.longitude
                         )
 
+                        //Load forecast from local database
                         val forecasts = repository.loadForecasts()
 
+                        // find forecast that matches the current hour
                         val current = forecasts.firstOrNull{
                             it.time.startsWith(hourPrefix)
                         }

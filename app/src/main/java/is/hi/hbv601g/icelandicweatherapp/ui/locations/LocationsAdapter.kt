@@ -31,6 +31,7 @@ class LocationsAdapter(
         return ForecastViewHolder(binding, onItemClick)
     }
 
+    // binds weather data to the ViewHolder
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
@@ -43,16 +44,24 @@ class LocationsAdapter(
         private val onItemClick: (CurrentLocationWeather) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
 
+        // populates UI elements with weather data
         fun bind(item: CurrentLocationWeather){
+            //display location name
             binding.textLocationName.text = item.locationName
 
+            // display temp in celsius
             binding.textTemperature.text =
                 "Temperature: ${item.temperature ?: "N/A"} °C"
+
+            //display wind speed
             binding.textWind.text =
                 "Wind: ${item.windSpeed ?: "N/A"}"
+
+            //display precipitation
             binding.textPrecipitation.text =
                 "Precipitation: ${item.precipitation ?: "N/A"} mm"
 
+            //handle click event for this location
             binding.root.setOnClickListener {
                 onItemClick(item)
             }
@@ -60,6 +69,9 @@ class LocationsAdapter(
     }
 
     companion object {
+        /**
+         * callback used by ListAdapter to efficiently determine what items have changed
+         */
         private val DiffCallback = object : DiffUtil.ItemCallback<CurrentLocationWeather>(){
 
             override fun areItemsTheSame(oldItem: CurrentLocationWeather, newItem: CurrentLocationWeather): Boolean {

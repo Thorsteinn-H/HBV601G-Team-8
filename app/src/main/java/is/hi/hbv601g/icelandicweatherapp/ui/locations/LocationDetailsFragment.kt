@@ -17,11 +17,15 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
  */
 class LocationDetailsFragment : Fragment() {
 
+    //ViewBinding reference
     private var _binding: FragmentLocationsBinding? = null
+    //binding accessor
     private val binding get() = _binding!!
 
-
+    //ViewModel responsible for loading forecast data
     private val viewModel: LocationDetailsViewModel by viewModels()
+
+    //RecyclerView adapter for displaying the forecast list
     private lateinit var adapter : ForecastAdapter
 
 
@@ -38,6 +42,7 @@ class LocationDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // retrieve location name passsed from the previous screen
         val locationName =
             requireArguments().getString("locationName")
                 ?: error("locationName missing")
@@ -48,9 +53,12 @@ class LocationDetailsFragment : Fragment() {
         val longitude =
             requireArguments().getFloat("longitude")
 
+        //set the activity title to the selected location
         requireActivity().title = locationName
+        //initialize recyclerView
         setupRecyclerView()
 
+        // Request forecast data for the location
         viewModel.loadForecast(
             latitude = latitude.toDouble(),
             longitude = longitude.toDouble()
@@ -59,6 +67,9 @@ class LocationDetailsFragment : Fragment() {
         observeViewModel()
     }
 
+    /**
+     * configures the recyclerView and attache the ForecastAdapter
+     */
     private fun setupRecyclerView(){
         adapter = ForecastAdapter()
 

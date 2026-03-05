@@ -20,19 +20,23 @@ import kotlin.getValue
 /**
  * Fragment responsible for displaying the list of locations
  *
- * observesa LocationsViewModel
+ * observes LocationsViewModel
  * Handles navigation to LocationDetailsFragment when a location is clicked
  */
 class LocationsFragment : Fragment() {
 
+    //ViewBinding reference
     private var _binding: FragmentLocationsBinding? = null
 
+    //accessor for binding
     private val binding get() = _binding!!
 
+    // ViewModel used to load weather data for locations
     private val viewModel: LocationsViewModel by viewModels {
         LocationsViewModelFactory(requireActivity().application)
     }
 
+    // RecyclerView adapter that displays the list of locations
     private lateinit var locationsAdapter: LocationsAdapter
 
     override fun onCreateView(
@@ -52,9 +56,13 @@ class LocationsFragment : Fragment() {
             locationsAdapter.submitList(it)
         }
 
+        //trigger loading of weather data for all locations
         viewModel.loadCurrentWeatherForAllLocations()
     }
 
+    /**
+     * configures the RecyclerView and handles click events on locations
+     */
     private fun setupRecyclerView(){
         //adapter with click callback
         locationsAdapter = LocationsAdapter{ selectedItem ->
@@ -68,6 +76,7 @@ class LocationsFragment : Fragment() {
                     "latitude" to location.latitude.toFloat(),
                     "longitude" to location.longitude.toFloat()
                 )
+            //navigate th  LocationsDetailFragment with selected location
             findNavController().navigate(
                 R.id.locationDetailsFragment,
                 bundle
