@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.SunDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentSunBinding
-import `is`.hi.hbv601g.icelandicweatherapp.network.ApiClient
+import `is`.hi.hbv601g.icelandicweatherapp.network.SunApiClient
 import kotlinx.coroutines.launch
 
 class SunViewModel: ViewModel() {
-    private val sunApi=ApiClient.sunApi
+    private val sunApi= SunApiClient.sunApi
 
     private val _sun = MutableLiveData<SunDto>()
     val sun: LiveData<SunDto> = _sun

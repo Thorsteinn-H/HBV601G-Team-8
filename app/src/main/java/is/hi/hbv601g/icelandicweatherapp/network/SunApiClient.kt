@@ -6,29 +6,27 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Defines the API base URL
  * Configures JSON parsing (Gson)
- * Exposes the VedurApi interface
+ * Exposes the Sun interface
  */
-object VedurApiClient {
+object SunApiClient {
 
     /**
-     * Base URL = https://api.vedur.is/cap/v1/
+     * Sunset URL = https://api.sunrise-sunset.org
      *
      */
-    private const val BASE_URL = "https://api.vedur.is"
-
+    private const val BASE_URL = "https://api.sunrise-sunset.org"
 
     /**
      * lazy means its not created until api is accesssed the first time
      *  - saves memory and startup
      */
-    val api: VedurAlertsApi by lazy {
+    val sunApi: SunApi by lazy{
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             //converter for JSON into Kotlin data classes
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(VedurAlertsApi::class.java)
+            .create(SunApi::class.java)
+
     }
-
-
 }
