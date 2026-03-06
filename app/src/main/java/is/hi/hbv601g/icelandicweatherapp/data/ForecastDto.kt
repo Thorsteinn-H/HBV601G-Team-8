@@ -1,20 +1,24 @@
 package `is`.hi.hbv601g.icelandicweatherapp.data
 
+import android.health.connect.datatypes.units.Temperature
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+/**
+ * Single forecast entry
+ */
+@Entity(tableName = "forecasts")
 data class ForecastDto(
-    val station: Int,
-    val name: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    //ISO-8601( e.g. 2026-02-26T12:00:00Z)
     val time: String,
-    val year: Int,
-    val month: Int,
-    val day: Int,
-    val t: Double, //Hitastig °C
-    val tx: Double, //Hámrkshiti °C
-    val tn: Double, //Lágmarkshit °C
-    val rh: Int, //rakastig %
-    val vp: Double, //Eimþrýstingur hPa
-    val td: Double, //Daggarmark °C
-    val f: Double, //Vindhraði m/s
-    val fx: Double, //Hámarksindhraði m/s
-    val fg: Double, //Vindhviða m/s
-    val d: Int    //Vindátt 360 = Norðanátt, 90 = Austanátt, 180 = Sunnanátt, 270 = Vestanátt, gráður"
+    //default in Celsius
+    val temperature: Double?,
+    // meters per second
+    val windSpeed: Double?,
+    // amount in millimeters
+    val precipitation: Double?,
+    //weather symbol code
+    val symbolCode: String?
 )

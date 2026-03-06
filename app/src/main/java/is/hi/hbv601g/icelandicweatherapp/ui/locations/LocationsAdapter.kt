@@ -7,65 +7,80 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemLocationsBinding
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.viewbinding.ViewBinding
+import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 
-class LocationsAdapter(private var forecast: List<ForecastDto>) :
-    RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
-    private val expanded=mutableListOf<Int>()
-    class LocationsViewHolder(val  view: ItemLocationsBinding) : RecyclerView.ViewHolder(view.root)
+/**
+ * RecyclerView adapter for displaying current weather for all
+ * icelandic locations
+ */
+class LocationsAdapter(
+    private val onItemClick: (CurrentLocationWeather) -> Unit
+) : ListAdapter<CurrentLocationWeather, LocationsAdapter.ForecastViewHolder>(DiffCallback) {
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): LocationsViewHolder {
-        val view = ItemLocationsBinding.inflate(
-                LayoutInflater.from(viewGroup.context),
-                viewGroup,
-                false)
 
-        return LocationsViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder{
+        val binding = ItemLocationsBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        // pass click callback down to ViewHolder
+        return ForecastViewHolder(binding, onItemClick)
     }
 
-    override fun onBindViewHolder(viewHolder: LocationsViewHolder, position: Int) {
-        val forecast = forecast[position]
-        viewHolder.view.textName.text=forecast.name
-        viewHolder.view.textTemp.text="Hitastig: " + forecast.t.toString()+ " °C"
-        viewHolder.view.textHumidity.text="Raki: " + forecast.rh.toString()+" %"
-        viewHolder.view.textMaxHeat.text="Hæðsti hiti: " + forecast.tx.toString()+" °C"
-        viewHolder.view.textMinHeat.text="Minnsti hiti: " +forecast.tn.toString()+" °C"
-        viewHolder.view.textWind.text="Vindhraði: " +forecast.f.toString()+" °m/s"
-        viewHolder.view.textWindDir.text="Vindátt: " +forecast.d.toString()+" °"
+    // binds weather data to the ViewHolder
+    override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
-        if(expanded.contains(position)){
-            viewHolder.view.textTemp.visibility=View.VISIBLE
-            viewHolder.view.textHumidity.visibility=View.VISIBLE
-            viewHolder.view.textMaxHeat.visibility=View.VISIBLE
-            viewHolder.view.textMinHeat.visibility=View.VISIBLE
-            viewHolder.view.textWind.visibility=View.VISIBLE
-            viewHolder.view.textWindDir.visibility=View.VISIBLE
-        } else{
-            viewHolder.view.textTemp.visibility=View.GONE
-            viewHolder.view.textHumidity.visibility=View.GONE
-            viewHolder.view.textMaxHeat.visibility=View.GONE
-            viewHolder.view.textMinHeat.visibility=View.GONE
-            viewHolder.view.textWind.visibility=View.GONE
-            viewHolder.view.textWindDir.visibility=View.GONE
-        }
+    /**
+     * ViewHolder representin one row, one location
+     */
+    class ForecastViewHolder(
+        private val binding: ItemLocationsBinding,
+        private val onItemClick: (CurrentLocationWeather) -> Unit
+    ): RecyclerView.ViewHolder(binding.root) {
 
-        viewHolder.view.root.setOnClickListener {
-            if(expanded.contains(position)){
-                expanded.remove(position)
-            } else {
-                expanded.add(position)
+        // populates UI elements with weather data
+        fun bind(item: CurrentLocationWeather){
+            //display location name
+            binding.textLocationName.text = item.locationName
+
+            // display temp in celsius
+            binding.textTemperature.text =
+                "Temperature: ${item.temperature ?: "N/A"} °C"
+
+            //display wind speed
+            binding.textWind.text =
+                "Wind: ${item.windSpeed ?: "N/A"}"
+
+            //display precipitation
+            binding.textPrecipitation.text =
+                "Precipitation: ${item.precipitation ?: "N/A"} mm"
+
+            //handle click event for this location
+            binding.root.setOnClickListener {
+                onItemClick(item)
             }
-            notifyItemChanged(position)
         }
-
-
     }
 
-    override fun getItemCount() = forecast.size
+    companion object {
+        /**
+         * callback used by ListAdapter to efficiently determine what items have changed
+         */
+        private val DiffCallback = object : DiffUtil.ItemCallback<CurrentLocationWeather>(){
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateList(list: List<ForecastDto>) {
-        forecast=list
-        notifyDataSetChanged()
+            override fun areItemsTheSame(oldItem: CurrentLocationWeather, newItem: CurrentLocationWeather): Boolean {
+                return oldItem.locationName == newItem.locationName
+            }
+
+            override fun areContentsTheSame(oldItem: CurrentLocationWeather, newItem: CurrentLocationWeather): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
-
 }

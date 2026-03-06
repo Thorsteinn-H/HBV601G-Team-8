@@ -2,7 +2,7 @@ package `is`.hi.hbv601g.icelandicweatherapp.repository
 
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDao
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
-import `is`.hi.hbv601g.icelandicweatherapp.network.ApiClient
+import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 
 /**
  * Calls the network layer
@@ -17,7 +17,7 @@ class AlertRepository(
      * @return List of AlertDto objects
      */
     suspend fun saveAlerts(){
-        val alerts =  ApiClient.api.getActiveAlerts()
+        val alerts =  VedurApiClient.api.getActiveAlerts()
         alertDao.clearAlerts()
         alertDao.insertAlerts(alerts)
     }
