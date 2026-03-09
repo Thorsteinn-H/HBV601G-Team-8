@@ -1,18 +1,14 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.AppDatabase
-import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import `is`.hi.hbv601g.icelandicweatherapp.model.TimeUtils
-import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 import `is`.hi.hbv601g.icelandicweatherapp.repository.ForecastRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -72,7 +68,8 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             locationName = location.name,
                             temperature = current?.temperature,
                             windSpeed = current?.windSpeed,
-                            precipitation = current?.precipitation
+                            precipitation = current?.precipitation,
+                            relativeHumidity = current?.relativeHumidity
                         )
                     } catch (e: Exception) {
                         // If the API/database fail, return empty val
@@ -80,7 +77,8 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             locationName = location.name,
                             temperature = null,
                             windSpeed = null,
-                            precipitation = null
+                            precipitation = null,
+                            relativeHumidity = null
                         )
                     }
                 }
@@ -90,5 +88,3 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 }
-
-
