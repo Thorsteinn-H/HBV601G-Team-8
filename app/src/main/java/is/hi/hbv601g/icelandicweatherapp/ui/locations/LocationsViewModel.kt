@@ -47,7 +47,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
         viewModelScope.launch {
 
-            // get the cureent hour formatted like the met.no
+            // get the current hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
             // fetch forecasts for all Icelandic Locations
             val results = IcelandLocations.majorIcelandLocation.map { location ->
