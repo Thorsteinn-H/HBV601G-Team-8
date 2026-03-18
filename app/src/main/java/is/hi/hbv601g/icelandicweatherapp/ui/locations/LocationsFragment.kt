@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import  `is`.hi.hbv601g.icelandicweatherapp.R
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.FusedLocationProviderClient
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import kotlin.getValue
@@ -38,6 +39,9 @@ class LocationsFragment : Fragment() {
 
     // RecyclerView adapter that displays the list of locations
     private lateinit var locationsAdapter: LocationsAdapter
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,6 +99,20 @@ class LocationsFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.currentWeather.observe(viewLifecycleOwner){ items ->
             locationsAdapter.submitList(items)
+        }
+    }
+
+    /**
+     *  get current location using gps tracker on phone
+     */
+    private fun getCurrentLocation() {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                viewModel.loadCurrentWeatherWithUserLocation(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
+            }
         }
     }
 

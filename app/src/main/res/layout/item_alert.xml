@@ -6,30 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!-- Time -->
     <TextView
-        android:id="@+id/textTime"
+        android:id="@+id/textHeadLine"
         android:textStyle="bold"
         android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <!-- Temperature -->
     <TextView
-        android:id="@+id/textTemperature"
+        android:id="@+id/textSeverity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <!-- Wind -->
     <TextView
-        android:id="@+id/textWind"
+        android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <!-- Precipitation -->
-    <TextView
-        android:id="@+id/textPrecipitation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -23,10 +23,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.user.UserFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_user" />
+        android:id="@+id/nav_alerts"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.AlertsFragment"
+        android:label="@string/menu_alerts"
+        tools:layout="@layout/fragment_alerts" />
 
     <fragment
         android:id="@+id/nav_sun"

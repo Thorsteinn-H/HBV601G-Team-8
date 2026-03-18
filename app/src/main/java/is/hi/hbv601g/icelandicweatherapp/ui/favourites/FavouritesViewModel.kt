@@ -32,9 +32,9 @@ class FavouritesViewModel(application: Application) : AndroidViewModel(applicati
     fun loadAlerts() {
         viewModelScope.launch {
             try {
-                repository.saveAlerts()
+                //repository.saveAlerts()
                 // fetch alerts from repository
-                _alerts.value = repository.loadAlerts()
+                //_alerts.value = repository.loadAlerts()
             } catch (e: Exception) {
                 // in case of error, expose an empty list
                 _alerts.value = emptyList()
