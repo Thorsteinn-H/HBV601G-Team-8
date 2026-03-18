@@ -43,14 +43,34 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
      * fetch forecast for each location on that hour
      * expose the result to the UI
      */
-    fun loadCurrentWeatherForAllLocations(){
-
+    fun loadAllWeatherWithUserLocation(
+        latitude : Double,
+        longitude : Double
+    ){
         viewModelScope.launch {
 
             // get the curent hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
+
+            val userLocationWeather = try {
+                repository.refreshForecast(latitude, longitude)
+                val forecasts = repository.loadForecasts()
+
+                val current = forecasts.firstOrNull {
+                    it.time.startsWith(hourPrefix)
+                }
+
+                CurrentLocationWeather(
+                    locationName = "📍 My Location",
+                    temperature = current?.temperature,
+                    windSpeed = current?.windSpeed,
+                    precipitation = current?.precipitation
+                )
+            } catch (e: Exception) {
+                null
+            }
             // fetch forecasts for all Icelandic Locations
-            val results = IcelandLocations.majorIcelandLocation.map { location ->
+            val locations = IcelandLocations.majorIcelandLocation.map { location ->
 
                 async {
                     try{
@@ -86,9 +106,15 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             }.awaitAll()
             //publish final list to Fragment UI
+            val results = if(userLocationWeather != null) {
+                listOf(userLocationWeather) + locations
+            } else {
+                locations
+            }
             _currentWeather.value = results
         }
     }
+
 }
 
 
