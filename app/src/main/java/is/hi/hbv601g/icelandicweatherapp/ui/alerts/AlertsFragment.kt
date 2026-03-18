@@ -11,16 +11,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentAlertsBinding
 
+/**
+ * Fragment responsible for displaying weather alerts
+ */
 class AlertsFragment : Fragment() {
 
+    // nullable to avoid memory leaks
     private var _binding: FragmentAlertsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
+    //ViewModel that provides alert data
     private val viewModel : AlertsViewModel by viewModels()
 
+    //RecyclerView adapter for displaying alerts
     private lateinit var adapter: AlertsAdapter
 
     override fun onCreateView(
@@ -33,12 +39,15 @@ class AlertsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // initialize RecyclerView
         setupRecyclerView()
 
         viewModel.alerts.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
 
+        //trigger loading of alerts
         viewModel.loadAlerts()
     }
 

@@ -14,7 +14,9 @@ class AlertRepository(
 ) {
 
     /**
-     * @return List of AlertDto objects
+     * call the API to retrive active alerts
+     * clear old alerts stored in db
+     * Inset the new alerts into the db
      */
     suspend fun refreshAlerts(){
         val alerts =  VedurApiClient.api.getActiveAlerts()
@@ -23,6 +25,9 @@ class AlertRepository(
     }
 
 
+    /**
+     * @return List of AlertDto objects
+     */
     suspend fun getAlerts(): List<AlertDto>{
         return alertDao.getAllAlerts()
     }

@@ -9,9 +9,15 @@ import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemAlertBinding
 import `is`.hi.hbv601g.icelandicweatherapp.ui.favourites.FavouritesAdapter
 
+/**
+ * RecyclerView adapter responsivle for displaying a list of weather alerts
+ */
 class AlertsAdapter :
     ListAdapter<AlertDto, AlertsAdapter.AlertViewHolder>(DiffCallback){
 
+    /**
+     * new ViewHodler when RecyclerView needs one
+     */
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,10 +30,16 @@ class AlertsAdapter :
         return AlertViewHolder(binding)
     }
 
+    /**
+     * binds alert data to the ViewHolder
+     */
     override fun onBindViewHolder(holder: AlertViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
+    /**
+     * ViewHodler representing one alert item
+     */
     class AlertViewHolder(
         private val binding: ItemAlertBinding
     ) : RecyclerView.ViewHolder(binding.root) {

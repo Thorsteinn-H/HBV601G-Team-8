@@ -11,18 +11,35 @@ import `is`.hi.hbv601g.icelandicweatherapp.data.AppDatabase
 import `is`.hi.hbv601g.icelandicweatherapp.repository.AlertRepository
 import kotlinx.coroutines.launch
 
+/**
+ *  ViewModel responsible for managing weather alert data
+ *
+ *  Extends AndroidViewModel to access Application context
+ */
 class AlertsViewModel(application: Application) : AndroidViewModel(application) {
 
+    // access AlertDao from ROOM db
     private val alertDao = AppDatabase.getDatabase(application).getAlertDao()
 
+    // handles API calls and db operations
     private val repository = AlertRepository(alertDao)
 
+    // Internal mutable LiveData holing alert list
     private val _alerts = MutableLiveData<List<AlertDto>>()
+
+    // public immutable LiveData observed by the UI
     val alerts: LiveData<List<AlertDto>> = _alerts
 
+    /**
+     * loads weather allerts from the repository
+     */
     fun loadAlerts() {
         viewModelScope.launch {
+
+            //fetch fresh data fromAPI
             repository.refreshAlerts()
+
+            // Load alerts from db and expose to UI
             _alerts.value = repository.getAlerts()
         }
     }

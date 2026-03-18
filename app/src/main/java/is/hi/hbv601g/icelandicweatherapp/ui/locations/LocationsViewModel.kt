@@ -51,15 +51,20 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
             // get the curent hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
-
+            // fetch forecast for current gps location
             val userLocationWeather = try {
+                //refresh forecast data from the API
                 repository.refreshForecast(latitude, longitude)
+
+                //Load forecast from local database
                 val forecasts = repository.loadForecasts()
 
+                // find forecast that matches the current hour
                 val current = forecasts.firstOrNull {
                     it.time.startsWith(hourPrefix)
                 }
 
+                //convert to UI model
                 CurrentLocationWeather(
                     locationName = "📍 My Location",
                     temperature = current?.temperature,
