@@ -66,7 +66,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
                 //convert to UI model
                 CurrentLocationWeather(
-                    locationName = "📍 My Location",
+                    locationName = "My Location",
                     temperature = current?.temperature,
                     windSpeed = current?.windSpeed,
                     precipitation = current?.precipitation

@@ -2,18 +2,22 @@ package `is`.hi.hbv601g.icelandicweatherapp.ui.alerts
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemAlertBinding
-import `is`.hi.hbv601g.icelandicweatherapp.ui.favourites.FavouritesAdapter
+import `is`.hi.hbv601g.icelandicweatherapp.model.SeverityLevel
+import `is`.hi.hbv601g.icelandicweatherapp.model.toDisplayText
+import `is`.hi.hbv601g.icelandicweatherapp.model.toSeverityLevel
 
 /**
  * RecyclerView adapter responsivle for displaying a list of weather alerts
  */
-class AlertsAdapter :
-    ListAdapter<AlertDto, AlertsAdapter.AlertViewHolder>(DiffCallback){
+class WeatherAlertsAdapter :
+    ListAdapter<AlertDto, WeatherAlertsAdapter.AlertViewHolder>(DiffCallback){
 
     /**
      * new ViewHodler when RecyclerView needs one
@@ -45,8 +49,21 @@ class AlertsAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(alert: AlertDto) {
             binding.textHeadLine.text = alert.headline
-            binding.textSeverity.text = "Severity: ${alert.severity}"
             binding.textDescription.text = alert.description
+
+            val severityLvl = alert.toSeverityLevel()
+
+            binding.textSeverity.text = "Severity: ${severityLvl.toDisplayText()}"
+
+            val context = binding.root.context
+            // ✅ Color mapping
+            when (alert.toSeverityLevel()) {
+                SeverityLevel.MINOR -> binding.textSeverity.setTextColor(ContextCompat.getColor(context, R.color.severity_green))
+                SeverityLevel.MODERATE -> binding.textSeverity.setTextColor(ContextCompat.getColor(context, R.color.severity_yellow))
+                SeverityLevel.SEVERE -> binding.textSeverity.setTextColor(ContextCompat.getColor(context, R.color.severity_orange)) // orange
+                SeverityLevel.EXTREME -> binding.textSeverity.setTextColor(ContextCompat.getColor(context, R.color.severity_red))
+                SeverityLevel.UNKNOWN -> binding.textSeverity.setTextColor(ContextCompat.getColor(context, R.color.white))
+            }
         }
     }
 

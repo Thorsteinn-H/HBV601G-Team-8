@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import  `is`.hi.hbv601g.icelandicweatherapp.R
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -47,6 +48,10 @@ class LocationsFragment : Fragment() {
 
     //client used to access the devices last known location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    //variables for lat and longitude
+    private var currentLatitude: Double = 0.0
+    private var currentLongitude: Double = 0.0
 
     /**
      * handles the permession request for location access
@@ -94,15 +99,27 @@ class LocationsFragment : Fragment() {
         //adapter with click callback
         locationsAdapter = LocationsAdapter{ selectedItem ->
             //find the full location object by matching name
-            val location = IcelandLocations.majorIcelandLocation.first{
-                it.name == selectedItem.locationName
-            }
             // create a bundle to pass data
-            val bundle = bundleOf(
+            val bundle = if(selectedItem.locationName == "My Location") {
+                bundleOf(
+                "locationName" to "My Location",
+                "latitude" to currentLatitude.toFloat(),
+                "longitude" to currentLongitude.toFloat())
+            }
+            else {
+                val location = IcelandLocations.majorIcelandLocation.first {
+                    it.name == selectedItem.locationName
+                }
+
+                bundleOf(
                     "locationName" to location.name,
                     "latitude" to location.latitude.toFloat(),
                     "longitude" to location.longitude.toFloat()
                 )
+            }
+
+
+
             //navigate th  LocationsDetailFragment with selected location
             findNavController().navigate(
                 R.id.locationDetailsFragment,
@@ -138,9 +155,11 @@ class LocationsFragment : Fragment() {
             // Permission granted, safe to access location
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
+                    currentLongitude = location.longitude
+                    currentLatitude = location.latitude
                     viewModel.loadAllWeatherWithUserLocation(
-                        latitude = location.latitude,
-                        longitude = location.longitude
+                        latitude = currentLatitude,
+                        longitude = currentLongitude
                     )
                 }
             }

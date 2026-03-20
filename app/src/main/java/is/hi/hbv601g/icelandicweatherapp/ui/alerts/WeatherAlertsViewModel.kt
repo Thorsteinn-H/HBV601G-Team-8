@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.data.AppDatabase
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
  *
  *  Extends AndroidViewModel to access Application context
  */
-class AlertsViewModel(application: Application) : AndroidViewModel(application) {
+class WeatherAlertsViewModel(application: Application) : AndroidViewModel(application) {
 
     // access AlertDao from ROOM db
     private val alertDao = AppDatabase.getDatabase(application).getAlertDao()

@@ -3,13 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_transform">
+    app:startDestination="@+id/nav_locations">
 
     <fragment
-        android:id="@+id/nav_transform"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.favourites.FavouritesFragment"
-        android:label="@string/menu_transform"
-        tools:layout="@layout/fragment_favourites" />
+        android:id="@+id/nav_attractions"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.attractions.AttractionsMenuFragment"
+        android:label="@string/menu_attractions"
+        tools:layout="@layout/fragment_attractions_menu">
+
+        <action
+            android:id="@+id/action_attractions_to_glacier"
+            app:destination="@+id/glacierFragment"/>
+
+        <action
+            android:id="@+id/action_attractions_to_northernLights"
+            app:destination="@+id/northernLightsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/glacierFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.attractions.GlacierFragment"
+        android:label="@string/glacier_attraction"/>
+
+    <fragment
+        android:id="@+id/northernLightsFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.attractions.NorthernLightsFragment"
+        android:label="@string/northern_lights_attraction"/>
+
+
 
     <fragment
         android:id="@+id/nav_locations"
@@ -23,10 +45,21 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_alerts"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.AlertsFragment"
+        android:id="@+id/nav_alerts_menu"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.AlertsMenuFragment"
         android:label="@string/menu_alerts"
-        tools:layout="@layout/fragment_alerts" />
+        tools:layout="@layout/fragment_alerts_menu">
+
+        <action
+            android:id="@+id/action_alertsMenu_to_weatherAlertsFragment"
+            app:destination="@+id/weatherAlertsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/weatherAlertsFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.WeatherAlertsFragment"
+        android:label="Vedur Alerts" />
 
     <fragment
         android:id="@+id/nav_sun"

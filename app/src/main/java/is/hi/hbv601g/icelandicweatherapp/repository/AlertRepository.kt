@@ -1,5 +1,6 @@
 package `is`.hi.hbv601g.icelandicweatherapp.repository
 
+import android.util.Log
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDao
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
