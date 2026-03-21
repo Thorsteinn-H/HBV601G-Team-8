@@ -1,5 +1,6 @@
 package `is`.hi.hbv601g.icelandicweatherapp.model
 
+import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.network.ForecastResponse
 
@@ -26,5 +27,4 @@ fun ForecastResponse.toForecastDtos(): List<ForecastDto> {
             symbolCode = series.data.next1Hours?.summary?.symbolCode
         )
     }
-
 }

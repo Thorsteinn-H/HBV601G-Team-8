@@ -1,4 +1,4 @@
-package `is`.hi.hbv601g.icelandicweatherapp.ui.favourites
+package `is`.hi.hbv601g.icelandicweatherapp.ui.attractions
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentFavouritesBinding
+import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentAttractionsMenuBinding
+import `is`.hi.hbv601g.icelandicweatherapp.R
 
 /**
  * Fragment that demonstrates a responsive layout pattern where the format of the content
@@ -17,39 +19,30 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentFavouritesBinding
  * and shows items using GridLayoutManager in a large screen.
  */
 class
-FavouritesFragment : Fragment() {
+AttractionsMenuFragment : Fragment() {
 
-    private var _binding: FragmentFavouritesBinding? = null
+    private var _binding: FragmentAttractionsMenuBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: FavouritesViewModel by viewModels()
-
-    private lateinit var favouritesAdapter: FavouritesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        _binding = FragmentAttractionsMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // Trigger API call
-        favouritesAdapter = FavouritesAdapter()
 
-        binding.recyclerviewFavourites.apply {
-            this?.layoutManager = LinearLayoutManager(requireContext())
-            this?.adapter = favouritesAdapter
+        binding.cardGlacier.setOnClickListener{
+            findNavController().navigate(R.id.glacierFragment)
         }
 
-        viewModel.alerts.observe(viewLifecycleOwner){ alerts ->
-            favouritesAdapter.submitList(alerts)
+        binding.cardNorthernLights.setOnClickListener{
+            //TODO
+            findNavController().navigate(R.id.northernLightsFragment)
         }
-
-        viewModel.loadAlerts()
     }
     override fun onDestroyView() {
         super.onDestroyView()
