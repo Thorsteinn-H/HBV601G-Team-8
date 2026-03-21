@@ -49,7 +49,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
     ){
         viewModelScope.launch {
 
-            // get the curent hour formatted like the met.no
+            // get the current hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
             // fetch forecast for current gps location
             val userLocationWeather = try {
@@ -97,7 +97,8 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             locationName = location.name,
                             temperature = current?.temperature,
                             windSpeed = current?.windSpeed,
-                            precipitation = current?.precipitation
+                            precipitation = current?.precipitation,
+                            relativeHumidity = current?.relativeHumidity
                         )
                     } catch (e: Exception) {
                         // If the API/database fail, return empty val
@@ -105,7 +106,8 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             locationName = location.name,
                             temperature = null,
                             windSpeed = null,
-                            precipitation = null
+                            precipitation = null,
+                            relativeHumidity = null
                         )
                     }
                 }
@@ -121,5 +123,3 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
 }
-
-

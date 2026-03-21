@@ -7,11 +7,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="menu_transform">Transform</string>
     <string name="menu_attractions">Attractions</string>
     <string name="menu_locations">Locations</string>
     <string name="menu_alerts">Alerts</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_sun">Dagsbirta</string>
+    <string name="menu_map">Kort</string>
+    <string name="menu_slideshow">Slideshow</string>
 
     <string name="weather_alerts">Weather Alerts</string>
     <string name="volcano_alerts">Volcano Alerts</string>

@@ -20,6 +20,7 @@ fun ForecastResponse.toForecastDtos(): List<ForecastDto> {
             //always available
             temperature = instantDetails.airTemperature,
             windSpeed = instantDetails.windSpeed,
+            relativeHumidity = instantDetails.relativeHumidity,
 
             //optional
             precipitation = series.data.next1Hours?.details?.precipitationAmount,
