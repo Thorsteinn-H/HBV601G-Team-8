@@ -8,17 +8,22 @@
 
     <item
         android:id="@+id/nav_attractions"
-        android:icon="@drawable/ic_warning_24dp"
+        android:icon="@drawable/ic_iceland"
         android:title="@string/menu_attractions" />
 
     <item
         android:id="@+id/nav_alerts_menu"
-        android:icon="@drawable/ic_iceland"
+        android:icon="@drawable/ic_warning_24dp"
         android:title="@string/menu_alerts" />
 
     <item
         android:id="@+id/nav_sun"
         android:icon="@drawable/ic_sun_24dp"
         android:title="@string/menu_sun" />
+
+    <item
+        android:id="@+id/nav_map"
+        android:icon="@drawable/ic_iceland"
+        android:title="@string/menu_map" />
 
 </menu>
