@@ -20,5 +20,10 @@
             android:id="@+id/nav_sun"
             android:icon="@drawable/ic_slideshow_black_24dp"
             android:title="@string/menu_sun" />
+
+        <item
+            android:id="@+id/nav_earthquake"
+            android:icon="@drawable/ic_slideshow_black_24dp"
+            android:title="@string/menu_sun" />
     </group>
 </menu>

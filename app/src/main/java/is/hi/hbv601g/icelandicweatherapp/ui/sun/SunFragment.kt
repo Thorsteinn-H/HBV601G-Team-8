@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentSunBinding
 import kotlin.getValue
 
