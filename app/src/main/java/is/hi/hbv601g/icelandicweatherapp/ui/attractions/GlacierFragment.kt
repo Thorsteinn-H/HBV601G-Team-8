@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentAttractionsMenuBinding
+import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentGlacierBinding
 
 class GlacierFragment : Fragment(){
 
-    private var _binding: FragmentAttractionsMenuBinding? = null
+    private var _binding: FragmentGlacierBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,8 +17,12 @@ class GlacierFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAttractionsMenuBinding.inflate(inflater, container, false)
+        _binding = FragmentGlacierBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

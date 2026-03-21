@@ -88,6 +88,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                         //Load forecast from local database
                         val forecasts = repository.loadForecasts()
 
+
                         // find forecast that matches the current hour
                         val current = forecasts.firstOrNull{
                             it.time.startsWith(hourPrefix)
@@ -101,6 +102,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             relativeHumidity = current?.relativeHumidity
                         )
                     } catch (e: Exception) {
+
                         // If the API/database fail, return empty val
                         CurrentLocationWeather(
                             locationName = location.name,

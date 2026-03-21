@@ -1,6 +1,7 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.attractions
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,7 @@ AttractionsMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.cardGlacier.setOnClickListener{
-            findNavController().navigate(R.id.glacierFragment)
+            findNavController().navigate(R.id.action_attractions_to_glacier)
         }
 
         binding.cardNorthernLights.setOnClickListener{
