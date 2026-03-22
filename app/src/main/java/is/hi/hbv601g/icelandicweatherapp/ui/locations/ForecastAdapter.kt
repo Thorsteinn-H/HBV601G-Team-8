@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemForecastBinding
+import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
+import java.util.Locale
 
 /**
  * RecyclerView Adaptar responsible for displaying the full forecast for a selected location
@@ -50,6 +52,17 @@ class ForecastAdapter :
             //display temperature in celsius
             binding.textTemperature.text =
                 forecast.temperature?.let { "Temperature $it °C" } ?: "Temperature: N/A"
+
+            // display feels like temp
+            val feelsLike = WeatherUtils.calculateFeelsLike(
+                forecast.temperature,
+                forecast.windSpeed,
+                forecast.relativeHumidity
+            )
+            val feelsLikeText = feelsLike?.let {
+                String.format(Locale.getDefault(), "Feels like: %.1f °C", it)
+            } ?: "Feels like: N/A"
+            binding.textFeelsLike.text = feelsLikeText
 
             //display wind speed in meters per second
             binding.textWind.text =

@@ -1,5 +1,6 @@
 package `is`.hi.hbv601g.icelandicweatherapp.repository
 
+import android.util.Log
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDao
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
@@ -14,20 +15,21 @@ class AlertRepository(
 ) {
 
     /**
-     * @return List of AlertDto objects
+     * call the API to retrive active alerts
+     * clear old alerts stored in db
+     * Inset the new alerts into the db
      */
-    suspend fun saveAlerts(){
+    suspend fun refreshAlerts(){
         val alerts =  VedurApiClient.api.getActiveAlerts()
         alertDao.clearAlerts()
         alertDao.insertAlerts(alerts)
     }
 
 
-    suspend fun saveAlerts(alerts: List<AlertDto>){
-        alertDao.clearAlerts()
-        alertDao.insertAlerts(alerts)
-    }
-    suspend fun loadAlerts(): List<AlertDto>{
+    /**
+     * @return List of AlertDto objects
+     */
+    suspend fun getAlerts(): List<AlertDto>{
         return alertDao.getAllAlerts()
     }
 }

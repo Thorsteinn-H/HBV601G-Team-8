@@ -46,7 +46,10 @@ data class InstantDetails(
     val airTemperature: Double?,
     // meters per second
     @SerializedName("wind_speed")
-    val windSpeed: Double?
+    val windSpeed: Double?,
+    // percentage
+    @SerializedName("relative_humidity")
+    val relativeHumidity: Double?
 )
 
 // forecast information for the next 1 hour, nullable

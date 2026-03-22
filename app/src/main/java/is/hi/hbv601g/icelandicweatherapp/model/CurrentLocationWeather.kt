@@ -7,5 +7,12 @@ data class CurrentLocationWeather(
     val locationName: String, // name of the location
     val temperature: Double?,  // current temp in Celsius by default
     val windSpeed: Double?, // windspeed in meter per second
-    val precipitation: Double? // precipitation in millimeters
-)
+    val precipitation: Double?, // precipitation in millimeters
+    val relativeHumidity: Double? = null // relative humidity in percentage
+) {
+    /**
+     * Calculates the apparent "feels like" temperature
+     */
+    val feelsLike: Double?
+        get() = WeatherUtils.calculateFeelsLike(temperature, windSpeed, relativeHumidity)
+}
