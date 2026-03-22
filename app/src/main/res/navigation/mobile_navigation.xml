@@ -78,10 +78,26 @@
         tools:layout="@layout/fragment_sun" />
 
     <fragment
+        android:id="@+id/nav_earthquake"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.earthquake.MapFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_earthquakes" />
+
+
+    <fragment
         android:id="@+id/nav_settings"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/northernLightsFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.northernlights.NorthernLightsFragment"
+        android:label="Northern Lights" />
+    <fragment
+        android:id="@+id/glaciersFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.glaciers.GlaciersFragment"
+        android:label="Glaciers" />
+
 
     <fragment
         android:id="@+id/locationDetailsFragment"
