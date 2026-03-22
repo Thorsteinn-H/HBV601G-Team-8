@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.contentMain.bottomNavView?.let {
             appBarConfiguration = AppBarConfiguration(
                 setOf(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow,R.id.northernLightsFragment,R.id.glaciersFragment,
+                    R.id.northernLightsFragment,R.id.glaciersFragment,
                     R.id.nav_attractions, R.id.nav_locations, R.id.nav_alerts_menu, R.id.nav_sun
                 )
             )
