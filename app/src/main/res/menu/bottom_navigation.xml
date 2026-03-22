@@ -15,7 +15,7 @@
         android:id="@+id/nav_alerts_menu"
         android:icon="@drawable/ic_warning_24dp"
         android:title="@string/menu_alerts" />
-
+<!--
     <item
         android:id="@+id/nav_sun"
         android:icon="@drawable/ic_sun_24dp"
@@ -25,7 +25,7 @@
         android:id="@+id/nav_earthquake"
         android:icon="@drawable/ic_iceland"
         android:title="@string/menu_map" />
-
+-->
     <group android:checkableBehavior="single">
 
         <item
