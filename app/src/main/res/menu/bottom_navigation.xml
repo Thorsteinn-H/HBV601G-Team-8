@@ -26,4 +26,32 @@
         android:icon="@drawable/ic_iceland"
         android:title="@string/menu_map" />
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_transform"
+            android:icon="@drawable/ic_camera_black_24dp"
+            android:title="@string/menu_transform" />
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@drawable/ic_gallery_black_24dp"
+            android:title="@string/menu_locations" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_slideshow_black_24dp"
+            android:title="@string/menu_slideshow" />
+        <item
+            android:id="@+id/nav_sun"
+            android:icon="@drawable/ic_slideshow_black_24dp"
+            android:title="@string/menu_sun" />
+
+        <item
+            android:id="@+id/nav_earthquake"
+            android:icon="@drawable/ic_slideshow_black_24dp"
+            android:title="@string/menu_earthquake" />
+
+        <item
+            android:id="@+id/nav_volcano"
+            android:icon="@drawable/ic_slideshow_black_24dp"
+            android:title="@string/menu_volcanos" />
+    </group>
 </menu>
