@@ -31,10 +31,6 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/menu_earthquake" />
 
-        <item
-            android:id="@+id/nav_volcano"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/menu_volcanos" />
 
     </group>
 </menu>
