@@ -1,18 +1,22 @@
 package `is`.hi.hbv601g.icelandicweatherapp.network
 
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
+//used to make network requests to vegagerðin ARCGIS API
 object RoadApiClient {
 
-    // https://gagnaveita.vegagerdin.is/api/faerd2017_1
+    // BASE_URL
+    //https://vegasja.vegagerdin.is/
     private const val BASE_URL =
-        "https://gagnaveita.vegagerdin.is/api/faerd2017_1/"
+        "https://vegasja.vegagerdin.is/"
 
+    //Lazy so its only made once
     val api: RoadApi by lazy{
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(SimpleXmlConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RoadApi::class.java)
     }

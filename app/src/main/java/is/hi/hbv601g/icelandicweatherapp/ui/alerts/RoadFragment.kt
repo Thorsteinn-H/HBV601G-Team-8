@@ -2,6 +2,8 @@ package `is`.hi.hbv601g.icelandicweatherapp.ui.alerts
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,17 +14,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentRoadBinding
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.convertToLatLng
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Polyline
 import kotlin.getValue
 
+
+//Fragment responsible for displaying road conditions
 class RoadFragment : Fragment() {
 
+    // View binding
     private var _binding: FragmentRoadBinding? = null
     private val binding get() = _binding!!
 
+    //ViewModel that provides road data
     private val viewModel: RoadViewModel by viewModels()
 
     override fun onCreateView(
@@ -38,6 +46,8 @@ class RoadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //load osmdroid configuration
+        // required for map to work properly
         Configuration.getInstance().load(
             requireContext(),
             requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
@@ -45,52 +55,60 @@ class RoadFragment : Fragment() {
 
         val map = binding.mapviewRoad
 
+        // set map style
         map.setTileSource(TileSourceFactory.MAPNIK)
+
+        //enable pinch zoom
         map.setMultiTouchControls(true)
 
+        //initail zoom and center
         map.controller.setZoom(7.0)
         map.controller.setCenter(GeoPoint(64.9631, -19.0208))
 
+        //load the roads
         viewModel.loadRoads()
 
+        //observe livedata from ViewModel
         viewModel.roads.observe(viewLifecycleOwner){ data ->
-
-            Log.d("ROAD_DEBUG", "Size: ${data.size}")
+            // clear previous drawing
             map.overlays.clear()
 
+            //loop for each road
             data.forEach { road ->
-                val latitude = road.lat
-                val longitude = road.lon
 
-                if(latitude == null || longitude == null) return@forEach
+                //each road can have multiple path segments
+                road.paths.forEach { path ->
 
-                val marker = Marker(map)
 
-                val surface = road.surface ?: ""
+                    val polyline = Polyline()
+                    val geoPoints = mutableListOf<GeoPoint>()
 
-                when(surface){
-                    "FÆRT" -> marker.icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.pin_green)
+                    //convert each point from icelandic coordinates to gps
+                    path.forEach { (x, y) ->
+                        val(lat,lon) = convertToLatLng(x,y)
+                        geoPoints.add(GeoPoint(lat, lon)) // (lat, lon)
+                    }
 
-                    "HÁLKA" -> marker.icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.pin_yellow)
+                    //assign points to polyline
+                    polyline.setPoints(geoPoints)
 
-                    "ÞUNGFÆRT" -> marker.icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.pin_orange)
+                    //parse color from API
+                    val color = try {
+                        Color.parseColor(road.colorHex ?: "#FF0000")
+                    } catch (e: Exception) {
+                        Color.RED
+                    }
 
-                    else -> marker.icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.pin_red)
+                    //apply styling
+                    polyline.outlinePaint.color = color
+                    polyline.outlinePaint.strokeWidth = 25f
+
+                    //add line to map
+                    map.overlays.add(polyline)
+
                 }
-
-                marker.position = GeoPoint(latitude, longitude)
-                marker.title = road.roadName ?: "Unkown road"
-                marker.subDescription = road.description ?: ""
-
-                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-
-                map.overlays.add(marker)
             }
-
+            //refresh map
             map.invalidate()
         }
     }
