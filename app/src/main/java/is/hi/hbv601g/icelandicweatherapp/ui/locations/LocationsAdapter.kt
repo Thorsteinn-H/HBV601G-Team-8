@@ -1,16 +1,13 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemLocationsBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.viewbinding.ViewBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
+import java.util.Locale
 
 /**
  * RecyclerView adapter for displaying current weather for all
@@ -53,9 +50,15 @@ class LocationsAdapter(
             binding.textTemperature.text =
                 "Temperature: ${item.temperature ?: "N/A"} °C"
 
+            // display feels like temp
+            val feelsLikeText = item.feelsLike?.let {
+                String.format(Locale.getDefault(), "Feels like: %.1f °C", it)
+            } ?: "Feels like: N/A"
+            binding.textFeelsLike.text = feelsLikeText
+
             //display wind speed
             binding.textWind.text =
-                "Wind: ${item.windSpeed ?: "N/A"}"
+                "Wind: ${item.windSpeed ?: "N/A"} m/s"
 
             //display precipitation
             binding.textPrecipitation.text =

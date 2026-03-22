@@ -1,5 +1,6 @@
 package `is`.hi.hbv601g.icelandicweatherapp.model
 
+import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.network.ForecastResponse
 
@@ -19,11 +20,11 @@ fun ForecastResponse.toForecastDtos(): List<ForecastDto> {
             //always available
             temperature = instantDetails.airTemperature,
             windSpeed = instantDetails.windSpeed,
+            relativeHumidity = instantDetails.relativeHumidity,
 
             //optional
             precipitation = series.data.next1Hours?.details?.precipitationAmount,
             symbolCode = series.data.next1Hours?.summary?.symbolCode
         )
     }
-
 }

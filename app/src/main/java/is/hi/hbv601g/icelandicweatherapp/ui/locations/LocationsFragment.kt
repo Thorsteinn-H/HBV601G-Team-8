@@ -1,5 +1,7 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,12 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import  `is`.hi.hbv601g.icelandicweatherapp.R
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import kotlin.getValue
@@ -39,6 +46,29 @@ class LocationsFragment : Fragment() {
     // RecyclerView adapter that displays the list of locations
     private lateinit var locationsAdapter: LocationsAdapter
 
+    //client used to access the devices last known location
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    //variables for lat and longitude
+    private var currentLatitude: Double = 0.0
+    private var currentLongitude: Double = 0.0
+
+    /**
+     * handles the permession request for location access
+     *
+     * if location is granted then fetch current location
+     * if denied log an error
+     */
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                getCurrentLocation()
+            } else {
+                // Permission denied
+                Log.e("LOCATION", "Permission denied")
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,8 +86,10 @@ class LocationsFragment : Fragment() {
             locationsAdapter.submitList(it)
         }
 
-        //trigger loading of weather data for all locations
-        viewModel.loadCurrentWeatherForAllLocations()
+        //initialize the fusedlocationclient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        //trigger loading of weather data for all locations starting with current
+        getCurrentLocation()
     }
 
     /**
@@ -67,15 +99,27 @@ class LocationsFragment : Fragment() {
         //adapter with click callback
         locationsAdapter = LocationsAdapter{ selectedItem ->
             //find the full location object by matching name
-            val location = IcelandLocations.majorIcelandLocation.first{
-                it.name == selectedItem.locationName
-            }
             // create a bundle to pass data
-            val bundle = bundleOf(
+            val bundle = if(selectedItem.locationName == "My Location") {
+                bundleOf(
+                "locationName" to "My Location",
+                "latitude" to currentLatitude.toFloat(),
+                "longitude" to currentLongitude.toFloat())
+            }
+            else {
+                val location = IcelandLocations.majorIcelandLocation.first {
+                    it.name == selectedItem.locationName
+                }
+
+                bundleOf(
                     "locationName" to location.name,
                     "latitude" to location.latitude.toFloat(),
                     "longitude" to location.longitude.toFloat()
                 )
+            }
+
+
+
             //navigate th  LocationsDetailFragment with selected location
             findNavController().navigate(
                 R.id.locationDetailsFragment,
@@ -97,6 +141,35 @@ class LocationsFragment : Fragment() {
             locationsAdapter.submitList(items)
         }
     }
+
+    /**
+     *  get current location using gps tracker on phone
+     */
+    private fun getCurrentLocation() {
+        //check if permission is granted
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission granted, safe to access location
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    currentLongitude = location.longitude
+                    currentLatitude = location.latitude
+                    viewModel.loadAllWeatherWithUserLocation(
+                        latitude = currentLatitude,
+                        longitude = currentLongitude
+                    )
+                }
+            }
+
+        } else {
+            // Permission not granted, request it
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

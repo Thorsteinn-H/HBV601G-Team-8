@@ -43,14 +43,39 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
      * fetch forecast for each location on that hour
      * expose the result to the UI
      */
-    fun loadCurrentWeatherForAllLocations(){
-
+    fun loadAllWeatherWithUserLocation(
+        latitude : Double,
+        longitude : Double
+    ){
         viewModelScope.launch {
 
-            // get the cureent hour formatted like the met.no
+            // get the current hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
+            // fetch forecast for current gps location
+            val userLocationWeather = try {
+                //refresh forecast data from the API
+                repository.refreshForecast(latitude, longitude)
+
+                //Load forecast from local database
+                val forecasts = repository.loadForecasts()
+
+                // find forecast that matches the current hour
+                val current = forecasts.firstOrNull {
+                    it.time.startsWith(hourPrefix)
+                }
+
+                //convert to UI model
+                CurrentLocationWeather(
+                    locationName = "My Location",
+                    temperature = current?.temperature,
+                    windSpeed = current?.windSpeed,
+                    precipitation = current?.precipitation
+                )
+            } catch (e: Exception) {
+                null
+            }
             // fetch forecasts for all Icelandic Locations
-            val results = IcelandLocations.majorIcelandLocation.map { location ->
+            val locations = IcelandLocations.majorIcelandLocation.map { location ->
 
                 async {
                     try{
@@ -72,7 +97,8 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             locationName = location.name,
                             temperature = current?.temperature,
                             windSpeed = current?.windSpeed,
-                            precipitation = current?.precipitation
+                            precipitation = current?.precipitation,
+                            relativeHumidity = current?.relativeHumidity
                         )
                     } catch (e: Exception) {
                         // If the API/database fail, return empty val
@@ -80,15 +106,20 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                             locationName = location.name,
                             temperature = null,
                             windSpeed = null,
-                            precipitation = null
+                            precipitation = null,
+                            relativeHumidity = null
                         )
                     }
                 }
             }.awaitAll()
             //publish final list to Fragment UI
+            val results = if(userLocationWeather != null) {
+                listOf(userLocationWeather) + locations
+            } else {
+                locations
+            }
             _currentWeather.value = results
         }
     }
+
 }
-
-

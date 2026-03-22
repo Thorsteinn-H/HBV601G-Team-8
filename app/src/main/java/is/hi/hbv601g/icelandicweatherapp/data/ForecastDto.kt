@@ -1,6 +1,5 @@
 package `is`.hi.hbv601g.icelandicweatherapp.data
 
-import android.health.connect.datatypes.units.Temperature
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -20,5 +19,7 @@ data class ForecastDto(
     // amount in millimeters
     val precipitation: Double?,
     //weather symbol code
-    val symbolCode: String?
+    val symbolCode: String?,
+    // percentage
+    val relativeHumidity: Double? = null
 )
