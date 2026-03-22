@@ -17,6 +17,8 @@
     <string name="menu_volcanos">Eldgos</string>
     <string name="menu_map">Kort</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_glaciers">Glaciers</string>
+    <string name="menu_northern_lights">Northern Lights</string>
 
     <string name="weather_alerts">Weather Alerts</string>
     <string name="volcano_alerts">Volcano Alerts</string>

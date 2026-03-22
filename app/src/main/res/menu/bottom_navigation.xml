@@ -6,35 +6,34 @@
         android:icon="@drawable/ic_map_24dp"
         android:title="@string/menu_locations" />
 
+<!--
     <item
         android:id="@+id/nav_attractions"
         android:icon="@drawable/ic_iceland"
         android:title="@string/menu_attractions" />
+-->
 
+    <item
+        android:id="@+id/nav_earthquake"
+        android:icon="@drawable/ic_iceland"
+        android:title="@string/menu_map" />
     <item
         android:id="@+id/nav_alerts_menu"
         android:icon="@drawable/ic_warning_24dp"
         android:title="@string/menu_alerts" />
-<!--
+
     <item
         android:id="@+id/nav_sun"
         android:icon="@drawable/ic_sun_24dp"
         android:title="@string/menu_sun" />
 
     <item
-        android:id="@+id/nav_earthquake"
-        android:icon="@drawable/ic_iceland"
-        android:title="@string/menu_map" />
--->
-    <group android:checkableBehavior="single">
+        android:id="@+id/northernLightsFragment"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="@string/menu_northern_lights" />
 
-        <item
-            android:id="@+id/northernLightsFragment"
-            android:icon="@android:drawable/ic_menu_compass"
-            android:title="Northern Lights" />
-        <item
-            android:id="@+id/glaciersFragment"
-            android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="Glaciers" />
-    </group>
+    <item
+        android:id="@+id/glaciersFragment"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/menu_glaciers" />
 </menu>
