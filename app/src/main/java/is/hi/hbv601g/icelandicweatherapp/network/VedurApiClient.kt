@@ -29,6 +29,15 @@ object VedurApiClient {
             .build()
             .create(VedurAlertsApi::class.java)
     }
+    private const val NORTHERN_LIGHTS_BASE_URL = "https://services.swpc.noaa.gov/"
 
-
+    private val northernLightsRetrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(NORTHERN_LIGHTS_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    val northernLightsApi: NorthernLightsApi by lazy {
+        northernLightsRetrofit.create(NorthernLightsApi::class.java)
+    }
 }

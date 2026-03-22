@@ -32,5 +32,9 @@
             android:title="@string/menu_earthquake" />
 
 
+        <item
+            android:id="@+id/northernLightsFragment"
+            android:title="Northern Lights"
+            android:icon="@android:drawable/ic_menu_compass" />
     </group>
 </menu>

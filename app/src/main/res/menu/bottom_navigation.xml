@@ -26,4 +26,15 @@
         android:icon="@drawable/ic_iceland"
         android:title="@string/menu_map" />
 
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/northernLightsFragment"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="Northern Lights" />
+        <item
+            android:id="@+id/glaciersFragment"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="Glaciers" />
+    </group>
 </menu>
