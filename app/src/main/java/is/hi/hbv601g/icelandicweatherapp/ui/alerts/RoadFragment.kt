@@ -3,6 +3,7 @@ package `is`.hi.hbv601g.icelandicweatherapp.ui.alerts
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ class RoadFragment : Fragment() {
 
         viewModel.roads.observe(viewLifecycleOwner){ data ->
 
+            Log.d("ROAD_DEBUG", "Size: ${data.size}")
             map.overlays.clear()
 
             data.forEach { road ->

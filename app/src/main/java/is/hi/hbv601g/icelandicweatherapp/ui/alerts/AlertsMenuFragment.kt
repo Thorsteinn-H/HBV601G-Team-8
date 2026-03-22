@@ -40,7 +40,7 @@ class AlertsMenuFragment : Fragment() {
         }
 
         binding.cardRoad.setOnClickListener {
-            // TODO later
+            findNavController().navigate(R.id.roadAlertsFragment)
         }
     }
 

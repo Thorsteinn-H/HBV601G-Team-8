@@ -7,7 +7,7 @@ object RoadApiClient {
 
     // https://gagnaveita.vegagerdin.is/api/faerd2017_1
     private const val BASE_URL =
-        "https://gagnaveita.vegagerdin.is/api/faerd2017_1"
+        "https://gagnaveita.vegagerdin.is/api/faerd2017_1/"
 
     val api: RoadApi by lazy{
         Retrofit.Builder()
