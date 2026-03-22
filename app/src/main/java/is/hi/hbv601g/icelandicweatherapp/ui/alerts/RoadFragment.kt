@@ -1,7 +1,7 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.alerts
 
 import android.content.Context
-import android.content.res.Configuration
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentRoadBinding
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
+import kotlin.getValue
 
 class RoadFragment : Fragment() {
 
@@ -39,8 +44,8 @@ class RoadFragment : Fragment() {
 
         val map = binding.mapviewRoad
 
-        map.setTileSource(TileSorceFactory.MAPNIK)
-        map.setMuliTouchControls(true)
+        map.setTileSource(TileSourceFactory.MAPNIK)
+        map.setMultiTouchControls(true)
 
         map.controller.setZoom(7.0)
         map.controller.setCenter(GeoPoint(64.9631, -19.0208))
@@ -72,10 +77,10 @@ class RoadFragment : Fragment() {
                         ContextCompat.getDrawable(requireContext(), R.drawable.pin_orange)
 
                     else -> marker.icon =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.redpin)
+                        ContextCompat.getDrawable(requireContext(), R.drawable.pin_red)
                 }
 
-                marker.position = Geopoint(lat, lon)
+                marker.position = GeoPoint(latitude, longitude)
                 marker.title = road.roadName ?: "Unkown road"
                 marker.subDescription = road.description ?: ""
 
@@ -84,7 +89,7 @@ class RoadFragment : Fragment() {
                 map.overlays.add(marker)
             }
 
-            map.invalidtate()
+            map.invalidate()
         }
     }
 
