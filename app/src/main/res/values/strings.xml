@@ -43,6 +43,9 @@
     </string>
     <string name="buttonearthquake">Jarðskjálftakort</string>
     <string name="buttonvolcano">Eldfjallakort</string>
+    <string name="buttonroads">Vegakort</string>
+    <string name="buttonweatheralerts">Veður viðvarana kort</string>
+    <string name="kortinfobutsmaller">Veldu kort til að skoða</string>
     <string name="kortinfo"><![CDATA[Veldu kort til að skoða, hvert kort er með pinna sem segja frá eldfjallinu eða jarðskjálftanum ef ýtt er á pinnan. Litirnir gefa til kynna hversu alvarlegt það er, í þessari röð frá engin hætta í mestu hættu grænn -> gulur -> appelsínugulur -> rauður.]]></string>
 
 </resources>

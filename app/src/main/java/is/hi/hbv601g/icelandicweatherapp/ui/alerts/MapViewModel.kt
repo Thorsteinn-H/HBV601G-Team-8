@@ -1,11 +1,14 @@
-package `is`.hi.hbv601g.icelandicweatherapp.ui.earthquake
+package `is`.hi.hbv601g.icelandicweatherapp.ui.alerts
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.QuakeDto
 import `is`.hi.hbv601g.icelandicweatherapp.data.VolcanoDto
+import `is`.hi.hbv601g.icelandicweatherapp.model.RoadCondition
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
+import `is`.hi.hbv601g.icelandicweatherapp.repository.RoadRepository
 import kotlinx.coroutines.launch
 
 class MapViewModel: ViewModel()  {
@@ -36,5 +39,20 @@ class MapViewModel: ViewModel()  {
 
         }
 
+    }
+
+    // repo that handles API calls
+    private val roadRepository = RoadRepository()
+
+    //road data
+    private val _roads = MutableLiveData<List<RoadCondition>>()
+    //immutable liceData
+    val roads: LiveData<List<RoadCondition>> = _roads
+
+    fun loadRoads() {
+        viewModelScope.launch {
+            val result = roadRepository.getRoadConditions()
+            _roads.value = result
+        }
     }
 }

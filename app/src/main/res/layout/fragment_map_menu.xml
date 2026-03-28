@@ -23,12 +23,32 @@
         app:layout_constraintStart_toEndOf="@+id/buttonearthquake"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/buttonroads"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:text="@string/buttonroads"
+        app:layout_constraintTop_toBottomOf="@+id/buttonearthquake"
+        app:layout_constraintEnd_toStartOf="@+id/buttonweatheralerts"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonweatheralerts"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:text="@string/buttonweatheralerts"
+        app:layout_constraintTop_toBottomOf="@+id/buttonvolcano"
+        app:layout_constraintStart_toEndOf="@+id/buttonroads"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
     <TextView
         android:id="@+id/info"
-        android:text="@string/kortinfo"
+        android:text="@string/kortinfobutsmaller"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/buttonearthquake"
+        app:layout_constraintTop_toBottomOf="@+id/buttonroads"
         app:layout_constraintBottom_toTopOf="@+id/mapId"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -40,14 +60,16 @@
         android:text=""
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/info"
-        app:layout_constraintBottom_toTopOf="@+id/mapviewEarhquake"
+        app:layout_constraintBottom_toTopOf="@+id/mapviewmenu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
 
+
+
     <org.osmdroid.views.MapView
-        android:id="@+id/mapviewEarhquake"
+        android:id="@+id/mapviewmenu"
         tilesource="Mapnik"
         android:layout_width="0dp"
         android:layout_height="0dp"
