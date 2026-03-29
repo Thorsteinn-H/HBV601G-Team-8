@@ -25,5 +25,15 @@ data class AlertDto(
     @SerializedName("description_en")
     val description: String?,
     val severity: String?,
-    val urgency: String?
+    val urgency: String?,
+
+    val info: List<InfoDto>
+)
+
+data class InfoDto(
+    val area: List<AreaDto>
+)
+
+data class AreaDto(
+    val polygon: String?
 )
