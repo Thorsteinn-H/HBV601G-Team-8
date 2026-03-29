@@ -27,7 +27,7 @@ data class AlertDto(
     val severity: String?,
     val urgency: String?,
 
-    val info: List<InfoDto>
+    //val info: List<InfoDto>
 )
 
 data class InfoDto(
