@@ -1,8 +1,9 @@
 package `is`.hi.hbv601g.icelandicweatherapp.repository
 
 import android.util.Log
-import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDao
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
+import `is`.hi.hbv601g.icelandicweatherapp.model.Alert
+import `is`.hi.hbv601g.icelandicweatherapp.model.toAlert
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 
 /**
@@ -10,9 +11,7 @@ import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
  * hides where the data comes from
  * keeps networking code out of UI
  */
-class AlertRepository(
-    private val alertDao: AlertDao
-) {
+class AlertRepository {
 
     /**
      * call the API to retrive active alerts
@@ -21,15 +20,18 @@ class AlertRepository(
      */
     suspend fun refreshAlerts(){
         val alerts =  VedurApiClient.api.getActiveAlerts()
-        alertDao.clearAlerts()
-        alertDao.insertAlerts(alerts)
     }
 
 
     /**
      * @return List of AlertDto objects
      */
-    suspend fun getAlerts(): List<AlertDto>{
-        return alertDao.getAllAlerts()
+    suspend fun getAlerts(): List<Alert>{
+        return try{
+            val response = VedurApiClient.api.getActiveAlerts()
+            response.map{ it.toAlert()}
+        } catch (e: Exception){
+            emptyList()
+        }
     }
 }

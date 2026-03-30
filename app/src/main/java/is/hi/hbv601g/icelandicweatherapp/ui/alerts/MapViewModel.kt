@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.QuakeDto
 import `is`.hi.hbv601g.icelandicweatherapp.data.VolcanoDto
+import `is`.hi.hbv601g.icelandicweatherapp.model.Alert
 import `is`.hi.hbv601g.icelandicweatherapp.model.RoadCondition
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
+import `is`.hi.hbv601g.icelandicweatherapp.repository.AlertRepository
 import `is`.hi.hbv601g.icelandicweatherapp.repository.RoadRepository
 import kotlinx.coroutines.launch
 
@@ -51,8 +53,17 @@ class MapViewModel: ViewModel()  {
 
     fun loadRoads() {
         viewModelScope.launch {
-            val result = roadRepository.getRoadConditions()
-            _roads.value = result
+            _roads.value =  roadRepository.getRoadConditions()
+        }
+    }
+
+    private val alertRepository = AlertRepository()
+    private val _alerts = MutableLiveData<List<Alert>>()
+    val alerts: LiveData<List<Alert>> = _alerts
+
+    fun loadAlerts(){
+        viewModelScope.launch {
+            _alerts.value = alertRepository.getAlerts()
         }
     }
 }

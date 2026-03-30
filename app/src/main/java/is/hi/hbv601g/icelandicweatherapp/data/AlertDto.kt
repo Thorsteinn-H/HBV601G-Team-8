@@ -14,24 +14,24 @@ import com.google.gson.annotations.SerializedName
  *
  * Should we add possible values to each val??
  */
-@Entity(tableName = "alerts")
 data class AlertDto(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    //@PrimaryKey(autoGenerate = true)
+    //val id: Int = 0,
     //English headline for the alert
-    @SerializedName("headline_en")
-    val headline: String?,
+    //@SerializedName("headline_en")
+    //val headline: String?,
     // English description for the alert
-    @SerializedName("description_en")
-    val description: String?,
-    val severity: String?,
-    val urgency: String?,
+    //@SerializedName("description_en")
+    //val description: String?,
+    //val severity: String?,
+    //val urgency: String?,
 
-    //val info: List<InfoDto>
+    val info: List<InfoDto>
 )
 
 data class InfoDto(
-    val area: List<AreaDto>
+    val area: List<AreaDto>,
+    val severity: String?
 )
 
 data class AreaDto(

@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentMapMenuBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.RoadCondition
+import `is`.hi.hbv601g.icelandicweatherapp.ui.alerts.layers.AlertLayer
 import `is`.hi.hbv601g.icelandicweatherapp.ui.alerts.layers.EarthquakeLayer
 import `is`.hi.hbv601g.icelandicweatherapp.ui.alerts.layers.RoadLayer
 import `is`.hi.hbv601g.icelandicweatherapp.ui.alerts.layers.VolcanoLayer
@@ -29,6 +30,8 @@ class MapFragment: Fragment() {
 
     private lateinit var volcanoLayer: VolcanoLayer
     private lateinit var earthquakeLayer: EarthquakeLayer
+
+    private val alertLayer = AlertLayer()
 
 
    private val roadLayer = RoadLayer()
@@ -56,6 +59,7 @@ class MapFragment: Fragment() {
 
         volcanoLayer = VolcanoLayer(requireContext())
 
+
         Configuration.getInstance().load(
             requireContext(),
             requireContext().getSharedPreferences("osmdroid", Context.MODE_PRIVATE)
@@ -65,6 +69,7 @@ class MapFragment: Fragment() {
         val earthQuakeButton = binding.buttonearthquake
         val volcanoButton = binding.buttonvolcano
         val roadsButton = binding.buttonroads
+        val alertButton = binding.buttonweatheralerts
 
         map.minZoomLevel = 7.0
         map.maxZoomLevel = 12.0
@@ -75,6 +80,7 @@ class MapFragment: Fragment() {
         earthquakeLayer.load(viewModel, viewLifecycleOwner, map)
         volcanoLayer.load(viewModel,viewLifecycleOwner,map)
         roadLayer.load(viewModel, viewLifecycleOwner)
+        alertLayer.load(viewModel, viewLifecycleOwner)
 
         earthQuakeButton.setOnClickListener {
             earthquakeLayer.draw(map)
@@ -91,7 +97,10 @@ class MapFragment: Fragment() {
             binding.mapId.text="VegaKort"
         }
 
-        //weather alerts TODO
+        alertButton.setOnClickListener {
+            alertLayer.draw(map)
+            binding.mapId.text="Veður viðvarana kort"
+        }
 
     }
 

@@ -1,8 +1,9 @@
 package `is`.hi.hbv601g.icelandicweatherapp.model
 
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.parsePolygon
 
-fun AlertDto.toSeverityLevel(): SeverityLevel {
+/*fun AlertDto.toSeverityLevel(): SeverityLevel {
     return when (severity?.lowercase()) {
         "minor" -> SeverityLevel.MINOR
         "moderate" -> SeverityLevel.MODERATE
@@ -10,7 +11,7 @@ fun AlertDto.toSeverityLevel(): SeverityLevel {
         "extreme" -> SeverityLevel.EXTREME
         else -> SeverityLevel.UNKNOWN
     }
-}
+}*/
 
 fun SeverityLevel.toDisplayText(): String {
     return when (this) {
@@ -20,4 +21,18 @@ fun SeverityLevel.toDisplayText(): String {
         SeverityLevel.EXTREME -> "Red"
         SeverityLevel.UNKNOWN -> "Unknown"
     }
+}
+
+fun AlertDto.toAlert(): Alert{
+    val polygons = info?.flatMap { info ->
+        info.area?.mapNotNull { area ->
+            area.polygon?.let { parsePolygon(it) }
+        } ?: emptyList()
+    } ?: emptyList()
+    val severity = info?.firstOrNull()?.severity ?: "Unkown"
+
+    return Alert(
+        polygons = polygons,
+        severity = severity
+    )
 }
