@@ -49,6 +49,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
     ){
         viewModelScope.launch {
 
+
             // get the current hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
             // fetch forecast for current gps location
@@ -87,6 +88,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
                         //Load forecast from local database
                         val forecasts = repository.loadForecasts()
+
 
 
                         // find forecast that matches the current hour

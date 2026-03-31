@@ -38,33 +38,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_alerts_menu"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.AlertsMenuFragment"
-        android:label="@string/menu_alerts"
-        tools:layout="@layout/fragment_alerts_menu">
-
-        <action
-            android:id="@+id/action_alertsMenu_to_weatherAlertsFragment"
-            app:destination="@+id/weatherAlertsFragment"/>
-
-        <action
-            android:id="@+id/action_alertsMenu_to_roadAlertsFragment"
-            app:destination="@+id/roadAlertsFragment"/>
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/weatherAlertsFragment"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.WeatherAlertsFragment"
-        android:label="Vedur Alerts" />
-
-    <fragment
-        android:id="@+id/roadAlertsFragment"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.RoadFragment"
-        android:label="@string/road_alerts"
-        tools:layout="@layout/fragment_road"/>
-
-    <fragment
         android:id="@+id/nav_sun"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.sun.SunFragment"
         android:label="@string/menu_settings"

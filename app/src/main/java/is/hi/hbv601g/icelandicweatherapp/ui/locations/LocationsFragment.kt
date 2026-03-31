@@ -83,6 +83,7 @@ class LocationsFragment : Fragment() {
 
         setupRecyclerView()
         viewModel.currentWeather.observe(viewLifecycleOwner) {
+
             locationsAdapter.submitList(it)
         }
 
