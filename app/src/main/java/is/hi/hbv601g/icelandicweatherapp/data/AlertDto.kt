@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+
 /**
  * Represents a SINGLE weather alert returned by Icelandic Met Office
  * DTO = Data transfer Object
@@ -23,17 +24,14 @@ data class AlertDto(
     // English description for the alert
     //@SerializedName("description_en")
     //val description: String?,
-    //val severity: String?,
+
     //val urgency: String?,
 
-    val info: List<InfoDto>
-)
+    @SerializedName("polygon")
+    val polygon: List<String>?,
 
-data class InfoDto(
-    val area: List<AreaDto>,
+    @SerializedName("severity")
     val severity: String?
+
 )
 
-data class AreaDto(
-    val polygon: String?
-)

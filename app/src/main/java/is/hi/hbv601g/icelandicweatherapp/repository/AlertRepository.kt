@@ -29,6 +29,7 @@ class AlertRepository {
     suspend fun getAlerts(): List<Alert>{
         return try{
             val response = VedurApiClient.api.getActiveAlerts()
+            Log.e("ALERT_DEBUG", "RAW RESPONSE: $response")
             response.map{ it.toAlert()}
         } catch (e: Exception){
             emptyList()

@@ -1,7 +1,9 @@
 package `is`.hi.hbv601g.icelandicweatherapp.model
 
+import android.util.Log
 import `is`.hi.hbv601g.icelandicweatherapp.data.AlertDto
 import `is`.hi.hbv601g.icelandicweatherapp.utilities.parsePolygon
+import org.osmdroid.util.GeoPoint
 
 /*fun AlertDto.toSeverityLevel(): SeverityLevel {
     return when (severity?.lowercase()) {
@@ -24,15 +26,16 @@ fun SeverityLevel.toDisplayText(): String {
 }
 
 fun AlertDto.toAlert(): Alert{
-    val polygons = info?.flatMap { info ->
-        info.area?.mapNotNull { area ->
-            area.polygon?.let { parsePolygon(it) }
-        } ?: emptyList()
+    val polygons = polygon?.mapNotNull { polyString ->
+        val parsed = parsePolygon(polyString)
+
+        if (parsed.size > 2) parsed else null
     } ?: emptyList()
-    val severity = info?.firstOrNull()?.severity ?: "Unkown"
+
+    Log.e("ALERT_DEBUG", "Polygons parsed: ${polygons.size}")
 
     return Alert(
         polygons = polygons,
-        severity = severity
+        severity = severity ?: "Unknown"
     )
 }
