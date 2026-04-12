@@ -27,6 +27,11 @@ class AlertLayer() {
 
         map.overlays.clear()
 
+        //this is only here for visual testing
+        if (alerts.isEmpty()) {
+            alerts = listOf(createFakeAlert())
+        }
+
         alerts.forEach { alert ->
 
             alert.polygons.forEach { polygonCoords ->
@@ -67,5 +72,21 @@ class AlertLayer() {
             "minor" -> Color.parseColor("#55FFFF00")
             else -> Color.parseColor("#55999999")
         }
+    }
+
+    //for visual testing
+    fun createFakeAlert(): Alert {
+        return Alert(
+            polygons = listOf(
+                listOf(
+                    GeoPoint(64.1, -19.2),
+                    GeoPoint(64.6, -19.3),
+                    GeoPoint(64.3, -19.6),
+                    GeoPoint(64.1, -19.5)
+                )
+            ),
+            severity = "Severe",
+            descriptionEn = "TEST ALERT: Extreme weather"
+        )
     }
 }
