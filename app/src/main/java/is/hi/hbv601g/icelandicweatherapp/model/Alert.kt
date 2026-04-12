@@ -4,5 +4,6 @@ import org.osmdroid.util.GeoPoint
 
 data class Alert(
     val polygons: List<List<GeoPoint>>,
-    val severity: String
+    val severity: String,
+    val descriptionEn: String
 )

@@ -2,6 +2,7 @@ package `is`.hi.hbv601g.icelandicweatherapp.ui.alerts.layers
 
 import android.content.Context
 import android.graphics.Color
+import android.widget.Toast
 import androidx.annotation.UiContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagedList
@@ -39,9 +40,19 @@ class AlertLayer() {
                 val color = getColor(alert.severity)
 
                 polygon.fillPaint.color = color
-                polygon.outlinePaint.color = color
-                polygon.outlinePaint.strokeWidth = 3f
+                polygon.outlinePaint.color = Color.BLACK
+                polygon.outlinePaint.strokeWidth = 4f
 
+                polygon.setOnClickListener{ _, mapView, _ ->
+
+                    Toast.makeText(
+                        mapView.context,
+                        alert.descriptionEn,
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    true
+                }
                 map.overlays.add(polygon)
             }
         }

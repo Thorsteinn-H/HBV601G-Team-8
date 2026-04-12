@@ -31,7 +31,9 @@ data class AlertDto(
     val polygon: List<String>?,
 
     @SerializedName("severity")
-    val severity: String?
+    val severity: String?,
 
+    @SerializedName("description_en")
+    val descriptionEn: String?
 )
 

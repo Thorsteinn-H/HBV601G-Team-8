@@ -32,10 +32,10 @@ fun AlertDto.toAlert(): Alert{
         if (parsed.size > 2) parsed else null
     } ?: emptyList()
 
-    Log.e("ALERT_DEBUG", "Polygons parsed: ${polygons.size}")
 
     return Alert(
         polygons = polygons,
-        severity = severity ?: "Unknown"
+        severity = severity ?: "Unknown",
+        descriptionEn = descriptionEn ?: "No description"
     )
 }
