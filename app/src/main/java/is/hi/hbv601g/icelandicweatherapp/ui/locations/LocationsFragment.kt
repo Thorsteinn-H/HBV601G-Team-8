@@ -83,8 +83,10 @@ class LocationsFragment : Fragment() {
 
         setupRecyclerView()
 
-        viewModel.sun.observe(viewLifecycleOwner){
-            //
+        viewModel.sun.observe(viewLifecycleOwner){ sun ->
+
+            binding.sunriseText.text = getString(R.string.sun_up, sun?.sunrise ?: "--")
+            binding.sunsetText.text = getString(R.string.sun_down, sun?.sunset ?: "--")
         }
         viewModel.currentWeather.observe(viewLifecycleOwner) {
 

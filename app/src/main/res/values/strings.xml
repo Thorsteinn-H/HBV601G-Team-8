@@ -28,8 +28,8 @@
     <string name="glacier_attraction">Glaciers</string>
     <string name="northern_lights_attraction">Northern Lights</string>
 
-    <string name="sun_up">Sólarupprás</string>
-    <string name="sun_down">Sólarlag</string>
+    <string name="sun_up">Sólarupprás: %1$s</string>
+    <string name="sun_down">Sólarlag: %1$s</string>
 
     <string name="lorem_ipsum_title">Lorem Ipsum"</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
