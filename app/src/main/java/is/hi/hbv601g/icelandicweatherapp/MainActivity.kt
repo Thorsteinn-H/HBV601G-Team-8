@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView?.let {
             appBarConfiguration = AppBarConfiguration(
                 setOf(
-                    R.id.nav_map_menu, R.id.nav_locations,R.id.nav_sun,
+                    R.id.nav_map_menu, R.id.nav_locations,
                     R.id.nav_settings, R.id.northernLightsFragment, R.id.glaciersFragment),
                 binding.drawerLayout
             )
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             appBarConfiguration = AppBarConfiguration(
                 setOf(
                     R.id.northernLightsFragment,R.id.glaciersFragment,
-                    R.id.nav_map_menu, R.id.nav_locations, R.id.nav_sun
+                    R.id.nav_map_menu, R.id.nav_locations
                 )
             )
             setupActionBarWithNavController(navController, appBarConfiguration)

@@ -20,11 +20,6 @@
             android:title="@string/menu_settings" />
 
         <item
-            android:id="@+id/nav_sun"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/menu_sun" />
-
-        <item
             android:id="@+id/nav_map_menu"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/menu_map" />

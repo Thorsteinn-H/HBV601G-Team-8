@@ -24,11 +24,6 @@
         android:title="@string/menu_alerts" />
 -->
     <item
-        android:id="@+id/nav_sun"
-        android:icon="@drawable/ic_sun_24dp"
-        android:title="@string/menu_sun" />
-
-    <item
         android:id="@+id/northernLightsFragment"
         android:icon="@android:drawable/ic_menu_compass"
         android:title="@string/menu_northern_lights" />
