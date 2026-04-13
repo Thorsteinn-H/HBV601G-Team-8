@@ -9,23 +9,23 @@ import `is`.hi.hbv601g.icelandicweatherapp.data.VolcanoDto
 import `is`.hi.hbv601g.icelandicweatherapp.model.Alert
 import `is`.hi.hbv601g.icelandicweatherapp.model.RoadCondition
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
-import `is`.hi.hbv601g.icelandicweatherapp.repository.AlertRepository
+import `is`.hi.hbv601g.icelandicweatherapp.repository.VedurAlertsRepository
 import `is`.hi.hbv601g.icelandicweatherapp.repository.RoadRepository
 import kotlinx.coroutines.launch
 
 class MapViewModel: ViewModel()  {
 
-    private val vedurApi= VedurApiClient.api
+    private val vedurAlertsRepository = VedurAlertsRepository()
 
     private val _earthquake = MutableLiveData<QuakeDto>()
     val earthquake: LiveData<QuakeDto> = _earthquake
 
     fun loadEarthquakes(start: String){
         viewModelScope.launch {
-            val response = vedurApi.getEarthquakes(start)
-
-            _earthquake.value = response.body()
-
+            val response = vedurAlertsRepository.getEarthquakes(start)
+            if (response != null){
+                _earthquake.value = response
+            }
         }
 
     }
@@ -35,10 +35,8 @@ class MapViewModel: ViewModel()  {
 
     fun loadVolcanos(){
         viewModelScope.launch {
-            val response = vedurApi.getVolcanos()
-
-            _volcano.value = response.body()
-
+            val response = vedurAlertsRepository.getVolcanos()
+            _volcano.value = response
         }
 
     }
@@ -57,13 +55,13 @@ class MapViewModel: ViewModel()  {
         }
     }
 
-    private val alertRepository = AlertRepository()
+
     private val _alerts = MutableLiveData<List<Alert>>()
     val alerts: LiveData<List<Alert>> = _alerts
 
     fun loadAlerts(){
         viewModelScope.launch {
-            _alerts.value = alertRepository.getAlerts()
+            _alerts.value = vedurAlertsRepository.getAlerts()
         }
     }
 }
