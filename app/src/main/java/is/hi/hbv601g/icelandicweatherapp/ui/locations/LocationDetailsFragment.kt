@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 
 /**
@@ -42,6 +43,11 @@ class LocationDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.sun.observe(viewLifecycleOwner) { sun ->
+
+            binding.sunriseText.text = getString(R.string.sun_up, sun?.sunrise ?: "--")
+            binding.sunsetText.text = getString(R.string.sun_down, sun?.sunset ?: "--")
+        }
         // retrieve location name passsed from the previous screen
         val locationName =
             requireArguments().getString("locationName")
