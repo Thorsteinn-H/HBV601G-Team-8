@@ -11,9 +11,11 @@ import `is`.hi.hbv601g.icelandicweatherapp.data.AppDatabase
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
+import `is`.hi.hbv601g.icelandicweatherapp.model.SunInfo
 import `is`.hi.hbv601g.icelandicweatherapp.model.TimeUtils
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 import `is`.hi.hbv601g.icelandicweatherapp.repository.ForecastRepository
+import `is`.hi.hbv601g.icelandicweatherapp.repository.SunRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
@@ -28,7 +30,10 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
     private val forecastDao = AppDatabase.getDatabase(application).getForecastDao()
 
     //Repository handles API calls and database operations
-    private val repository = ForecastRepository(forecastDao)
+    private val forecastRepository = ForecastRepository(forecastDao)
+
+    //Repository handles API calls to sun
+    private val sunRepository = SunRepository()
 
     //mutable LiceData holding the current weather for all locations
     private val _currentWeather =
@@ -36,6 +41,10 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
     // public immutable LiveData observed by the UI
     val currentWeather: LiveData<List<CurrentLocationWeather>> = _currentWeather
+
+    private val _sun = MutableLiveData<SunInfo?>()
+
+    val sun: LiveData<SunInfo?> = _sun
 
     /**
      * Loads the current-hout weather for major Icelandic locations
@@ -49,16 +58,27 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
     ){
         viewModelScope.launch {
 
+            val sunInfo = try {
+                val sunDto = sunRepository.getSun(latitude, longitude)
 
+                SunInfo(
+                    sunrise = sunDto?.results?.sunrise,
+                    sunset = sunDto?.results?.sunset
+                )
+            } catch (e: Exception) {
+                null
+            }
+
+            _sun.value = sunInfo
             // get the current hour formatted like the met.no
             val hourPrefix = TimeUtils.currentUtcHour()
             // fetch forecast for current gps location
             val userLocationWeather = try {
                 //refresh forecast data from the API
-                repository.refreshForecast(latitude, longitude)
+                forecastRepository.refreshForecast(latitude, longitude)
 
                 //Load forecast from local database
-                val forecasts = repository.loadForecasts()
+                val forecasts = forecastRepository.loadForecasts()
 
                 // find forecast that matches the current hour
                 val current = forecasts.firstOrNull {
@@ -81,13 +101,13 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                 async {
                     try{
                         //refresh forecast data from the API
-                        repository.refreshForecast(
+                        forecastRepository.refreshForecast(
                             location.latitude,
                             location.longitude
                         )
 
                         //Load forecast from local database
-                        val forecasts = repository.loadForecasts()
+                        val forecasts = forecastRepository.loadForecasts()
 
 
 

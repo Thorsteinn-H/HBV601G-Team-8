@@ -82,6 +82,10 @@ class LocationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+
+        viewModel.sun.observe(viewLifecycleOwner){
+            //
+        }
         viewModel.currentWeather.observe(viewLifecycleOwner) {
 
             locationsAdapter.submitList(it)
