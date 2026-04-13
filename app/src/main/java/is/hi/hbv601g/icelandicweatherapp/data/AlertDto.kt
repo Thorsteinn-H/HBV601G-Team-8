@@ -12,8 +12,8 @@ import com.google.gson.annotations.SerializedName
  * data mirrors the JSON structure
  * No business logic
  *
- *
- * Should we add possible values to each val??
+ * alot more that can go in here the data in theJSON
+ * is large
  */
 data class AlertDto(
     //@PrimaryKey(autoGenerate = true)
@@ -24,15 +24,17 @@ data class AlertDto(
     // English description for the alert
     //@SerializedName("description_en")
     //val description: String?,
-
     //val urgency: String?,
 
+    // an area that an alert is going on inn
     @SerializedName("polygon")
     val polygon: List<String>?,
 
+    // severity of said alert
     @SerializedName("severity")
     val severity: String?,
 
+    //description in english of said alert
     @SerializedName("description_en")
     val descriptionEn: String?
 )
