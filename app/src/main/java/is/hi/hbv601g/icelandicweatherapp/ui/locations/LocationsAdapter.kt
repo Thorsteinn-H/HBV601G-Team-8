@@ -7,7 +7,7 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemLocationsBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
-import java.util.Locale
+import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
 
 /**
  * RecyclerView adapter for displaying current weather for all
@@ -42,17 +42,38 @@ class LocationsAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
 
         // populates UI elements with weather data
+
         fun bind(item: CurrentLocationWeather){
             //display location name
             binding.textLocationName.text = item.locationName
+            val context = binding.root.context
+            val hitastigStilling = WeatherUtils.readHitastigSettings(context);
 
             // display temp in celsius
             binding.textTemperature.text =
                 "Temperature: ${item.temperature ?: "N/A"} °C"
 
+            binding.textTemperature.text =
+                item.temperature?.let {
+                    (
+                            if(hitastigStilling==1){"Temperature $it °C"}
+                            else {
+                                val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                                "Temperature $fahrenheit °F"
+
+                            })
+                } ?: "Temperature: N/A"
+
+
             // display feels like temp
-            val feelsLikeText = item.feelsLike?.let {
-                String.format(Locale.getDefault(), "Feels like: %.1f °C", it)
+            val feelsLikeText = item.feelsLike?.let {(
+                if(hitastigStilling==1){
+                    "Feels like: $it °C"}
+                else {
+                    val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                    "Feels like: $fahrenheit °F"
+
+                })
             } ?: "Feels like: N/A"
             binding.textFeelsLike.text = feelsLikeText
 

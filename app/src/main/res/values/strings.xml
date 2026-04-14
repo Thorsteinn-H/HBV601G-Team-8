@@ -47,5 +47,9 @@
     <string name="buttonweatheralerts">Veður viðvarana kort</string>
     <string name="kortinfobutsmaller">Veldu kort til að skoða</string>
     <string name="kortinfo"><![CDATA[Veldu kort til að skoða, hvert kort er með pinna sem segja frá eldfjallinu eða jarðskjálftanum ef ýtt er á pinnan. Litirnir gefa til kynna hversu alvarlegt það er, í þessari röð frá engin hætta í mestu hættu grænn -> gulur -> appelsínugulur -> rauður.]]></string>
+    <string name="stillingar">Stillingar:</string>
+    <string name="hitastig">Hitastig:</string>
+    <string name="celc_us_c">Celcíus - °C</string>
+    <string name="fahrenheit_f">Fahrenheit - °F</string>
 
 </resources>

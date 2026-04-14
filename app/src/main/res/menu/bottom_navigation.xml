@@ -32,4 +32,9 @@
         android:id="@+id/glaciersFragment"
         android:icon="@android:drawable/ic_menu_mapmode"
         android:title="@string/menu_glaciers" />
+  
+     <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/menu_settings" />
 </menu>
