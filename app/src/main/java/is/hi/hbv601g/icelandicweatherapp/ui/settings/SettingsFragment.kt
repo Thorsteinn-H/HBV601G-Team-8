@@ -1,13 +1,19 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.settings
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.telephony.RadioAccessSpecifier
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentEarthquakesBinding
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentSettingsBinding
+import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
 
 class SettingsFragment : Fragment() {
 
@@ -22,16 +28,38 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val settingsViewModel =
-            ViewModelProvider(this).get(SettingsViewModel::class.java)
-
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        settingsViewModel.text.observe(viewLifecycleOwner) {
-
-        }
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val radioGroup = binding.hitastigStillingar
+
+        val context = binding.root.context
+
+        val valid = WeatherUtils.readHitastigSettings(context)
+
+        when(valid){
+            1 -> {radioGroup.check(binding.celcius.id)}
+            2 -> {radioGroup.check(binding.fahrenheit.id)}
+        }
+
+        radioGroup.setOnCheckedChangeListener { _, i ->
+            when(i) {
+                binding.celcius.id->{
+                    WeatherUtils.geymaHitastig(context,1)
+
+                }
+                binding.fahrenheit.id->{
+                    WeatherUtils.geymaHitastig(context,2)
+
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemForecastBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
-import java.util.Locale
-
 /**
  * RecyclerView Adaptar responsible for displaying the full forecast for a selected location
  *
@@ -44,6 +42,8 @@ class ForecastAdapter :
         private val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         // populates the UI elements with forecast data
+        val context = binding.root.context
+        val hitastigStilling = WeatherUtils.readHitastigSettings(context);
         fun bind(forecast: ForecastDto) {
 
             //display the forecast timestamp
@@ -51,7 +51,15 @@ class ForecastAdapter :
 
             //display temperature in celsius
             binding.textTemperature.text =
-                forecast.temperature?.let { "Temperature $it °C" } ?: "Temperature: N/A"
+                forecast.temperature?.let {
+                    (
+                            if(hitastigStilling==1){"Temperature $it °C"}
+                            else {
+                                val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                                "Temperature $it °F"
+
+                    })
+                } ?: "Temperature: N/A"
 
             // display feels like temp
             val feelsLike = WeatherUtils.calculateFeelsLike(
@@ -60,7 +68,13 @@ class ForecastAdapter :
                 forecast.relativeHumidity
             )
             val feelsLikeText = feelsLike?.let {
-                String.format(Locale.getDefault(), "Feels like: %.1f °C", it)
+                (
+                        if(hitastigStilling==1){"Feels like:  $it °C"}
+                        else {
+                            val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                            "Feels like:  $it °F"
+
+                        })
             } ?: "Feels like: N/A"
             binding.textFeelsLike.text = feelsLikeText
 
