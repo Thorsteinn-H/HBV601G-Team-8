@@ -29,8 +29,9 @@ class VedurAlertsRepository {
      */
     suspend fun getAlerts(): List<Alert>{
         return try{
+            // network request to get active alerts
             val response = VedurApiClient.api.getActiveAlerts()
-            Log.e("ALERT_DEBUG", "RAW RESPONSE: $response")
+            // convert AlertDto from API into Alert domain model
             response.map{ it.toAlert()}
         } catch (e: Exception){
             emptyList()
@@ -38,18 +39,29 @@ class VedurAlertsRepository {
     }
 
 
+    /**
+     * @return earthquake data from Vedur API
+     */
     suspend fun getEarthquakes(start: String): QuakeDto? {
         return try {
+            // network request with start time filter
             val response = VedurApiClient.api.getEarthquakes(start)
+            // return body if successful
             if (response.isSuccessful) response.body() else null
         } catch (e: Exception) {
             null
         }
     }
 
+
+    /**
+     * @return volcano data from the Vedur API
+     */
     suspend fun getVolcanos(): List<VolcanoDto> {
         return try {
+            //network request to get vlocano list
             val response = VedurApiClient.api.getVolcanos()
+            // return response body, or empty list
             response.body() ?: emptyList()
         } catch (e: Exception) {
             emptyList()
