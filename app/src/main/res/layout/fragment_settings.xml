@@ -7,12 +7,12 @@
 
     <TextView
         android:id="@+id/hitastig"
-        android:textSize="24dp"
-        android:layout_width="400dp"
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
         android:text="@string/hitastig"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"/>
 
     <RadioGroup
         android:id="@+id/hitastigStillingar"
@@ -20,22 +20,49 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/hitastig"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         >
 
         <RadioButton
             android:id="@+id/celcius"
             android:text="@string/celc_us_c"
-            android:layout_height="100dp"
-            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:checked="true"/>
 
         <RadioButton
             android:id="@+id/fahrenheit"
             android:text="@string/fahrenheit_f"
-            android:layout_height="100dp"
-            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/uppahalds"
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:text="Uppáhalds:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hitastigStillingar"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uppahalds"
+
+        >
+        <CheckBox android:id="@+id/checkbox_meat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meat" />
+        <CheckBox android:id="@+id/checkbox_cheese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cheese"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,11 +42,12 @@ class LocationsAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
 
         // populates UI elements with weather data
-        val context = binding.root.context
-        val hitastigStilling = WeatherUtils.readHitastigSettings(context);
+
         fun bind(item: CurrentLocationWeather){
             //display location name
             binding.textLocationName.text = item.locationName
+            val context = binding.root.context
+            val hitastigStilling = WeatherUtils.readHitastigSettings(context);
 
             // display temp in celsius
             binding.textTemperature.text =
@@ -58,7 +59,7 @@ class LocationsAdapter(
                             if(hitastigStilling==1){"Temperature $it °C"}
                             else {
                                 val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                                "Temperature $it °F"
+                                "Temperature $fahrenheit °F"
 
                             })
                 } ?: "Temperature: N/A"
@@ -66,10 +67,11 @@ class LocationsAdapter(
 
             // display feels like temp
             val feelsLikeText = item.feelsLike?.let {(
-                if(hitastigStilling==1){"Feels like: $it °C"}
+                if(hitastigStilling==1){
+                    "Feels like: $it °C"}
                 else {
                     val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                    "Feels like: $it °F"
+                    "Feels like: $fahrenheit °F"
 
                 })
             } ?: "Feels like: N/A"

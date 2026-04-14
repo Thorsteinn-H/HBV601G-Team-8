@@ -1,9 +1,11 @@
 package `is`.hi.hbv601g.icelandicweatherapp.model
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.core.content.ContentProviderCompat.requireContext
 import kotlin.math.exp
+import androidx.core.content.edit
 
 object WeatherUtils {
     /**
@@ -61,4 +63,41 @@ object WeatherUtils {
 
         }
     }
+
+    fun geymaFavorite(context: Context, nafn:String){
+        val sharedPref = context.getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        val favorites = sharedPref.getStringSet("favorites",emptySet())
+
+        val listi = favorites?.toMutableSet()
+
+        listi?.add(nafn)
+
+        sharedPref.edit { putStringSet("favorites", favorites) }
+
+
+    }
+
+    fun eyðaFavorite(context: Context, nafn:String){
+        val sharedPref = context.getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        val favorites = sharedPref.getStringSet("favorites",emptySet())
+
+        val listi = favorites?.toMutableSet()
+
+        listi?.remove(nafn)
+
+        sharedPref.edit { putStringSet("favorites", favorites) }
+
+    }
+
+    fun getFavorite(context: Context): MutableSet<String?>? {
+        val sharedPref = context.getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        val favorites = sharedPref.getStringSet("favorites",emptySet())
+
+        val listi = favorites?.toMutableSet()
+
+        return listi
+
+
+    }
+
 }

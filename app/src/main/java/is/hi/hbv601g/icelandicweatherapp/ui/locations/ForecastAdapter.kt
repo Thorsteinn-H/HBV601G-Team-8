@@ -42,12 +42,13 @@ class ForecastAdapter :
         private val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         // populates the UI elements with forecast data
-        val context = binding.root.context
-        val hitastigStilling = WeatherUtils.readHitastigSettings(context);
+
         fun bind(forecast: ForecastDto) {
 
             //display the forecast timestamp
             binding.textTime.text = forecast.time
+            val context = binding.root.context
+            val hitastigStilling = WeatherUtils.readHitastigSettings(context);
 
             //display temperature in celsius
             binding.textTemperature.text =
@@ -56,7 +57,7 @@ class ForecastAdapter :
                             if(hitastigStilling==1){"Temperature $it °C"}
                             else {
                                 val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                                "Temperature $it °F"
+                                "Temperature $fahrenheit °F"
 
                     })
                 } ?: "Temperature: N/A"
@@ -72,7 +73,7 @@ class ForecastAdapter :
                         if(hitastigStilling==1){"Feels like:  $it °C"}
                         else {
                             val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                            "Feels like:  $it °F"
+                            "Feels like:  $fahrenheit °F"
 
                         })
             } ?: "Feels like: N/A"
