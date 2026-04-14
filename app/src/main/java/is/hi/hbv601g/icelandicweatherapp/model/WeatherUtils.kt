@@ -72,7 +72,7 @@ object WeatherUtils {
 
         listi?.add(nafn)
 
-        sharedPref.edit { putStringSet("favorites", favorites) }
+        sharedPref.edit { putStringSet("favorites", listi) }
 
 
     }
@@ -85,7 +85,7 @@ object WeatherUtils {
 
         listi?.remove(nafn)
 
-        sharedPref.edit { putStringSet("favorites", favorites) }
+        sharedPref.edit { putStringSet("favorites", listi) }
 
     }
 

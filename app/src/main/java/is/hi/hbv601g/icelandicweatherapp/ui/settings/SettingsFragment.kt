@@ -7,12 +7,14 @@ import android.telephony.RadioAccessSpecifier
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentEarthquakesBinding
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentSettingsBinding
+import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
 
 class SettingsFragment : Fragment() {
@@ -43,6 +45,31 @@ class SettingsFragment : Fragment() {
 
         val valid = WeatherUtils.readHitastigSettings(context)
 
+        val locations = IcelandLocations.majorIcelandLocation
+
+        val linearLayout = binding.layout
+
+        val favorites= WeatherUtils.getFavorite(context)
+
+        for (location in locations) {
+            val box = CheckBox(context)
+            box.text=location.name
+
+            if(favorites?.contains(location.name) ?: false){
+                box.isChecked=true
+            }
+
+            box.setOnCheckedChangeListener { _, bool ->
+                if(bool){
+                    WeatherUtils.geymaFavorite(context,location.name)
+
+                } else{
+                    WeatherUtils.eyðaFavorite(context,location.name)
+                }
+            }
+            linearLayout.addView(box)
+        }
+
         when(valid){
             1 -> {radioGroup.check(binding.celcius.id)}
             2 -> {radioGroup.check(binding.fahrenheit.id)}
@@ -60,6 +87,7 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+
     }
 
     override fun onDestroyView() {
