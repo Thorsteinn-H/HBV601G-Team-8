@@ -17,6 +17,8 @@
     <string name="menu_volcanos">Eldgos</string>
     <string name="menu_map">Kort</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_glaciers">Glaciers</string>
+    <string name="menu_northern_lights">Northern Lights</string>
 
     <string name="weather_alerts">Weather Alerts</string>
     <string name="volcano_alerts">Volcano Alerts</string>
@@ -26,8 +28,9 @@
     <string name="glacier_attraction">Glaciers</string>
     <string name="northern_lights_attraction">Northern Lights</string>
 
-    <string name="sun_up">Sólarupprás</string>
-    <string name="sun_down">Sólarlag</string>
+    <string name="sun_up">Sólarupprás: %1$s</string>
+    <string name="sun_down">Sólarlag: %1$s</string>
+
     <string name="lorem_ipsum_title">Lorem Ipsum"</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
         typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
@@ -40,6 +43,9 @@
     </string>
     <string name="buttonearthquake">Jarðskjálftakort</string>
     <string name="buttonvolcano">Eldfjallakort</string>
+    <string name="buttonroads">Vegakort</string>
+    <string name="buttonweatheralerts">Veður viðvarana kort</string>
+    <string name="kortinfobutsmaller">Veldu kort til að skoða</string>
     <string name="kortinfo"><![CDATA[Veldu kort til að skoða, hvert kort er með pinna sem segja frá eldfjallinu eða jarðskjálftanum ef ýtt er á pinnan. Litirnir gefa til kynna hversu alvarlegt það er, í þessari röð frá engin hætta í mestu hættu grænn -> gulur -> appelsínugulur -> rauður.]]></string>
     <string name="stillingar">Stillingar:</string>
     <string name="hitastig">Hitastig:</string>

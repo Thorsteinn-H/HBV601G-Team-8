@@ -1,5 +1,6 @@
 package `is`.hi.hbv601g.icelandicweatherapp.repository
 
+import android.util.Log
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDao
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.network.MetApiClient

@@ -86,12 +86,21 @@ class LocationsFragment : Fragment() {
         val favorites = WeatherUtils.getFavorite(context)
 
         setupRecyclerView()
+
+
+        viewModel.sun.observe(viewLifecycleOwner){ sun ->
+
+            binding.sunriseText.text = getString(R.string.sun_up, sun?.sunrise ?: "--")
+            binding.sunsetText.text = getString(R.string.sun_down, sun?.sunset ?: "--")
+        }
+        
         viewModel.currentWeather.observe(viewLifecycleOwner) {listi ->
             val rodun = listi.sortedByDescending {
                 favorites?.contains(it.locationName)
             }
             locationsAdapter.submitList(rodun)
-        }
+
+ }
 
         //initialize the fusedlocationclient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())

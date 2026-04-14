@@ -14,15 +14,13 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [
         UserDto::class,
-        AlertDto::class,
         ForecastDto::class],
-    version = 3) // schema version, must increase when schema changes
+    version = 6) // schema version, must increase when schema changes
 abstract class AppDatabase : RoomDatabase() {
 
     // provides access to UserDao
     abstract fun getUserDao(): UserDao
-    // provides access to AlertDao
-    abstract fun getAlertDao(): AlertDao
+
     // Provides access to ForecastDao
     abstract fun getForecastDao(): ForecastDao
 
@@ -49,6 +47,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java, // the class
                     "userdb" // file name
                 )
+                    .fallbackToDestructiveMigration()
                     .build()
 
                 // store so it can be reused

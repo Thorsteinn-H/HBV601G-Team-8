@@ -4,32 +4,25 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <!--
         <item
             android:id="@+id/nav_attractions"
             android:icon="@drawable/ic_camera_black_24dp"
             android:title="@string/menu_attractions" />
+            -->
         <item
             android:id="@+id/nav_locations"
             android:icon="@drawable/ic_gallery_black_24dp"
             android:title="@string/menu_locations" />
-        <item
-            android:id="@+id/nav_alerts_menu"
-            android:icon="@drawable/ic_slideshow_black_24dp"
-            android:title="@string/menu_alerts" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/menu_settings" />
 
         <item
-            android:id="@+id/nav_sun"
+            android:id="@+id/nav_map_menu"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/menu_sun" />
-
-        <item
-            android:id="@+id/nav_earthquake"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/menu_earthquake" />
+            android:title="@string/menu_map" />
 
 
         <item
