@@ -15,7 +15,7 @@ import androidx.room.RoomDatabase
     entities = [
         UserDto::class,
         ForecastDto::class],
-    version = 5) // schema version, must increase when schema changes
+    version = 6) // schema version, must increase when schema changes
 abstract class AppDatabase : RoomDatabase() {
 
     // provides access to UserDao
