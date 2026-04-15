@@ -11,19 +11,47 @@ import org.osmdroid.views.overlay.Polyline
 
 class RoadLayer {
 
-    private var roadLines: List<RoadCondition> = emptyList()
+    private var roadLines: List<Pair<List<GeoPoint>, Int>> = emptyList()
 
     fun load(viewModel: MapViewModel, lifecycleOwner: LifecycleOwner){
         viewModel.loadRoads()
 
-        viewModel.roads.observe(lifecycleOwner){
-            roadLines = it
+        viewModel.roads.observe(lifecycleOwner){ data ->
+            roadLines = data.flatMap { road ->
+
+                val color = try {
+                    Color.parseColor(road.colorHex ?: "#FF0000")
+                } catch (e: Exception) {
+                    Color.RED
+                }
+
+                road.paths.map { path ->
+
+                    val geoPoints = path.map { (x, y) ->
+                        val (lat, lon) = convertToLatLng(x, y)
+                        GeoPoint(lat, lon)
+                    }
+
+                    geoPoints to color
+                }
+            }
+
         }
     }
     fun draw(map: MapView) {
         map.overlays.clear()
 
-        roadLines.forEach { road ->
+        roadLines.forEach { (points, color) ->
+
+            val polyline = Polyline()
+            polyline.setPoints(points)
+
+            polyline.outlinePaint.color = color
+            polyline.outlinePaint.strokeWidth = 12f
+
+            map.overlays.add(polyline)
+        }
+        /*roadLines.forEach { road ->
             road.paths.forEach { path ->
 
                 val polyline = Polyline()
@@ -45,7 +73,7 @@ class RoadLayer {
 
                 map.overlays.add(polyline)
             }
-        }
+        }*/
 
         map.invalidate()
     }

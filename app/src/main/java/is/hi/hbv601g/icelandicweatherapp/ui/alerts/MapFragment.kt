@@ -85,21 +85,25 @@ class MapFragment: Fragment() {
         earthQuakeButton.setOnClickListener {
             earthquakeLayer.draw(map)
             binding.mapId.text="Jarðskjálftakort"
+            binding.roadLegend.visibility = View.GONE
         }
 
         volcanoButton.setOnClickListener {
             volcanoLayer.draw(map)
             binding.mapId.text="Eldfjallakort"
+            binding.roadLegend.visibility = View.GONE
         }
 
         roadsButton.setOnClickListener {
             roadLayer.draw(map)
             binding.mapId.text="VegaKort"
+            binding.roadLegend.visibility = View.VISIBLE
         }
 
         alertButton.setOnClickListener {
             alertLayer.draw(map)
             binding.mapId.text="Veður viðvarana kort"
+            binding.roadLegend.visibility = View.GONE
         }
 
     }

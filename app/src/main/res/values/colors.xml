@@ -11,4 +11,14 @@
     <color name="severity_yellow">#FFC107</color>
     <color name="severity_orange">#FF9800</color>
     <color name="severity_red">#F44336</color>
+    <color name="road_flughalt">#0000FF</color>
+    <color name="road_greidfart">#00DF30</color>
+    <color name="road_halkublettir">#FFDF00</color>
+    <color name="road_halt">#00B7FF</color>
+    <color name="road_snjor">#FFFFFF</color>
+    <color name="road_lokad">#FF8000</color>
+    <color name="road_ofaert">#FF0000</color>
+    <color name="road_unknown">#6E670D</color>
+    <color name="road_thungfaert">#3F3F3F</color>
+    <color name="road_thaefingur">#FF7FFF</color>
 </resources>
