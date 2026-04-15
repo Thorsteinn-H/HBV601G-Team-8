@@ -22,6 +22,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
+import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
 import kotlin.getValue
 
 /**
@@ -81,17 +82,25 @@ class LocationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val context=binding.root.context
+        val favorites = WeatherUtils.getFavorite(context)
+
         setupRecyclerView()
+
 
         viewModel.sun.observe(viewLifecycleOwner){ sun ->
 
             binding.sunriseText.text = getString(R.string.sun_up, sun?.sunrise ?: "--")
             binding.sunsetText.text = getString(R.string.sun_down, sun?.sunset ?: "--")
         }
-        viewModel.currentWeather.observe(viewLifecycleOwner) {
+        
+        viewModel.currentWeather.observe(viewLifecycleOwner) {listi ->
+            val rodun = listi.sortedByDescending {
+                favorites?.contains(it.locationName)
+            }
+            locationsAdapter.submitList(rodun)
 
-            locationsAdapter.submitList(it)
-        }
+ }
 
         //initialize the fusedlocationclient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())

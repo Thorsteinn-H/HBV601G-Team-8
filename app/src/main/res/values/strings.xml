@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Icelandic Weather App</string>
+    <string name="app_name">Veðurapp</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -9,24 +9,24 @@
 
     <string name="menu_transform">Transform</string>
     <string name="menu_attractions">Attractions</string>
-    <string name="menu_locations">Locations</string>
-    <string name="menu_alerts">Alerts</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_locations">Staðir</string>
+    <string name="menu_alerts">Viðvaranir</string>
+    <string name="menu_settings">Stillingar</string>
     <string name="menu_sun">Dagsbirta</string>
     <string name="menu_earthquake">Jarðskjálftar</string>
     <string name="menu_volcanos">Eldgos</string>
     <string name="menu_map">Kort</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_glaciers">Glaciers</string>
-    <string name="menu_northern_lights">Northern Lights</string>
+    <string name="menu_glaciers">Jöklar</string>
+    <string name="menu_northern_lights">Norðurljós</string>
 
-    <string name="weather_alerts">Weather Alerts</string>
-    <string name="volcano_alerts">Volcano Alerts</string>
-    <string name="earthquake_alerts">Earthquake Alerts</string>
-    <string name="road_alerts">Road Alerts</string>
+    <string name="weather_alerts">Veður viðvaranir</string>
+    <string name="volcano_alerts">Eldgos viðvaranir</string>
+    <string name="earthquake_alerts">Jarðskjálfta viðvaranir</string>
+    <string name="road_alerts">Vega viðvaranir</string>
 
-    <string name="glacier_attraction">Glaciers</string>
-    <string name="northern_lights_attraction">Northern Lights</string>
+    <string name="glacier_attraction">Jöklar</string>
+    <string name="northern_lights_attraction">Norðurljós</string>
 
     <string name="sun_up">Sólarupprás: %1$s</string>
     <string name="sun_down">Sólarlag: %1$s</string>
@@ -47,6 +47,10 @@
     <string name="buttonweatheralerts">Veður viðvarana kort</string>
     <string name="kortinfobutsmaller">Veldu kort til að skoða</string>
     <string name="kortinfo"><![CDATA[Veldu kort til að skoða, hvert kort er með pinna sem segja frá eldfjallinu eða jarðskjálftanum ef ýtt er á pinnan. Litirnir gefa til kynna hversu alvarlegt það er, í þessari röð frá engin hætta í mestu hættu grænn -> gulur -> appelsínugulur -> rauður.]]></string>
+    <string name="stillingar">Stillingar:</string>
+    <string name="hitastig">Hitastig:</string>
+    <string name="celc_us_c">Celcíus - °C</string>
+    <string name="fahrenheit_f">Fahrenheit - °F</string>
 
 
 </resources>

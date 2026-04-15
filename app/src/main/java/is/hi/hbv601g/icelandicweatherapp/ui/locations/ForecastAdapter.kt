@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemForecastBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
-import java.util.Locale
-
 /**
  * RecyclerView Adaptar responsible for displaying the full forecast for a selected location
  *
@@ -44,14 +42,26 @@ class ForecastAdapter :
         private val binding: ItemForecastBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         // populates the UI elements with forecast data
+
         fun bind(forecast: ForecastDto) {
 
             //display the forecast timestamp
             binding.textTime.text = forecast.time
+            val context = binding.root.context
+            val hitastigStilling = WeatherUtils.readHitastigSettings(context);
 
             //display temperature in celsius
             binding.textTemperature.text =
-                forecast.temperature?.let { "Temperature $it °C" } ?: "Temperature: N/A"
+                forecast.temperature?.let {
+                    (
+                            if(hitastigStilling==1){"Hitastig $it °C"}
+                            else {
+                                val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                                val string = "%.1f".format(fahrenheit)
+                                "Hitastig $string °F"
+
+                    })
+                } ?: "Hitastig: N/A"
 
             // display feels like temp
             val feelsLike = WeatherUtils.calculateFeelsLike(
@@ -60,17 +70,27 @@ class ForecastAdapter :
                 forecast.relativeHumidity
             )
             val feelsLikeText = feelsLike?.let {
-                String.format(Locale.getDefault(), "Feels like: %.1f °C", it)
-            } ?: "Feels like: N/A"
+                (
+
+                        if(hitastigStilling==1){
+                            val string = "%.1f".format(it)
+                            "Eins og:  $string °C"}
+                        else {
+                            val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                            val string = "%.1f".format(fahrenheit)
+                            "Eins og: $string °F"
+
+                        })
+            } ?: "Eins og: N/A"
             binding.textFeelsLike.text = feelsLikeText
 
             //display wind speed in meters per second
             binding.textWind.text =
-                forecast.windSpeed?.let { "Wind: $it m/s" } ?: "Wind: N/A"
+                forecast.windSpeed?.let { "Vindur: $it m/s" } ?: "Vindur: N/A"
 
             // Display percipitation in millimeters
             binding.textPrecipitation.text =
-                forecast.precipitation?.let { "Precipitation: $it mm" } ?: "Precipitation: N/A"
+                forecast.precipitation?.let { "Úrkoma: $it mm" } ?: "Úrkoma: N/A"
         }
     }
 
