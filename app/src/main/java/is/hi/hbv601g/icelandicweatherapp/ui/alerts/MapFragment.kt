@@ -94,7 +94,7 @@ class MapFragment: Fragment() {
 
         roadsButton.setOnClickListener {
             roadLayer.draw(map)
-            binding.mapId.text="VegaKort"
+            binding.mapId.text="Vegakort"
         }
 
         alertButton.setOnClickListener {

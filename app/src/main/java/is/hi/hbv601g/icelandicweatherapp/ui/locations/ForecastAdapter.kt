@@ -54,13 +54,14 @@ class ForecastAdapter :
             binding.textTemperature.text =
                 forecast.temperature?.let {
                     (
-                            if(hitastigStilling==1){"Temperature $it °C"}
+                            if(hitastigStilling==1){"Hitastig $it °C"}
                             else {
                                 val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                                "Temperature $fahrenheit °F"
+                                val string = "%.1f".format(fahrenheit)
+                                "Hitastig $string °F"
 
                     })
-                } ?: "Temperature: N/A"
+                } ?: "Hitastig: N/A"
 
             // display feels like temp
             val feelsLike = WeatherUtils.calculateFeelsLike(
@@ -70,22 +71,26 @@ class ForecastAdapter :
             )
             val feelsLikeText = feelsLike?.let {
                 (
-                        if(hitastigStilling==1){"Feels like:  $it °C"}
+
+                        if(hitastigStilling==1){
+                            val string = "%.1f".format(it)
+                            "Eins og:  $string °C"}
                         else {
                             val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                            "Feels like:  $fahrenheit °F"
+                            val string = "%.1f".format(fahrenheit)
+                            "Eins og: $string °F"
 
                         })
-            } ?: "Feels like: N/A"
+            } ?: "Eins og: N/A"
             binding.textFeelsLike.text = feelsLikeText
 
             //display wind speed in meters per second
             binding.textWind.text =
-                forecast.windSpeed?.let { "Wind: $it m/s" } ?: "Wind: N/A"
+                forecast.windSpeed?.let { "Vindur: $it m/s" } ?: "Vindur: N/A"
 
             // Display percipitation in millimeters
             binding.textPrecipitation.text =
-                forecast.precipitation?.let { "Precipitation: $it mm" } ?: "Precipitation: N/A"
+                forecast.precipitation?.let { "Úrkoma: $it mm" } ?: "Úrkoma: N/A"
         }
     }
 

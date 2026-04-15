@@ -51,39 +51,39 @@ class LocationsAdapter(
 
             // display temp in celsius
             binding.textTemperature.text =
-                "Temperature: ${item.temperature ?: "N/A"} °C"
+                "Hitastig: ${item.temperature ?: "N/A"} °C"
 
             binding.textTemperature.text =
                 item.temperature?.let {
                     (
-                            if(hitastigStilling==1){"Temperature $it °C"}
+                            if(hitastigStilling==1){"Hitastig $it °C"}
                             else {
                                 val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                                "Temperature $fahrenheit °F"
+                                val string = "%.1f".format(fahrenheit)
+                                "Hitastig $string °F"
 
                             })
-                } ?: "Temperature: N/A"
-
+                } ?: "Hitastig: N/A"
 
             // display feels like temp
-            val feelsLikeText = item.feelsLike?.let {(
-                if(hitastigStilling==1){
-                    "Feels like: $it °C"}
-                else {
-                    val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-                    "Feels like: $fahrenheit °F"
-
-                })
-            } ?: "Feels like: N/A"
-            binding.textFeelsLike.text = feelsLikeText
+            //            val feelsLikeText = item.feelsLike?.let {(
+            //   if(hitastigStilling==1){
+            //      "Eins og: $it °C"}
+            //  else {
+            //      val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+            //      "Eins og: $fahrenheit °F"
+//
+            //              })
+//             } ?: "Eins og: N/A"
+//             binding.textFeelsLike.text = feelsLikeText
 
             //display wind speed
-            binding.textWind.text =
-                "Wind: ${item.windSpeed ?: "N/A"} m/s"
+//             binding.textWind.text =
+//                 "Vindur: ${item.windSpeed ?: "N/A"} m/s"
 
             //display precipitation
-            binding.textPrecipitation.text =
-                "Precipitation: ${item.precipitation ?: "N/A"} mm"
+            //           binding.textPrecipitation.text =
+   //             "Úrkoma: ${item.precipitation ?: "N/A"} mm"
 
             //handle click event for this location
             binding.root.setOnClickListener {

@@ -8,11 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.RadioButton
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentEarthquakesBinding
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentSettingsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
