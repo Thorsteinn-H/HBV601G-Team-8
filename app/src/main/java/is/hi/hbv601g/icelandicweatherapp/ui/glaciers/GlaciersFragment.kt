@@ -7,17 +7,20 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import `is`.hi.hbv601g.icelandicweatherapp.R
-import `is`.hi.hbv601g.icelandicweatherapp.network.VedurCapRetrofitInstance
+import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class GlaciersFragment : Fragment(R.layout.fragment_glaciers) {
 
     private lateinit var textView: TextView
+    private lateinit var titleView: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         textView = view.findViewById(R.id.textGlaciers)
+        titleView = view.findViewById(R.id.glacierTitle)
 
         val btnSnaefellsjokull: Button = view.findViewById(R.id.btnSnaefellsjokull)
         val btnLangjokull: Button = view.findViewById(R.id.btnLangjokull)
@@ -27,84 +30,104 @@ class GlaciersFragment : Fragment(R.layout.fragment_glaciers) {
         val btnMyrdalsjokull: Button = view.findViewById(R.id.btnMyrdalsjokull)
         val btnVatnajokull: Button = view.findViewById(R.id.btnVatnajokull)
 
-        btnSnaefellsjokull.setOnClickListener {
-            loadGlacierForecast("Snæfellsjökull")
-        }
-
-        btnLangjokull.setOnClickListener {
-            loadGlacierForecast("Langjökull")
-        }
-
-        btnHofsjokull.setOnClickListener {
-            loadGlacierForecast("Hofsjökull")
-        }
-
-        btnDrangajokull.setOnClickListener {
-            loadGlacierForecast("Drangajökull")
-        }
-
-        btnEyjafjallajokull.setOnClickListener {
-            loadGlacierForecast("Eyjafjallajökull")
-        }
-
-        btnMyrdalsjokull.setOnClickListener {
-            loadGlacierForecast("Mýrdalsjökull")
-        }
-
-        btnVatnajokull.setOnClickListener {
-            loadGlacierForecast("Vatnajökull")
-        }
+        btnSnaefellsjokull.setOnClickListener { loadGlacierForecast("Snæfellsjökull") }
+        btnLangjokull.setOnClickListener { loadGlacierForecast("Langjökull") }
+        btnHofsjokull.setOnClickListener { loadGlacierForecast("Hofsjökull") }
+        btnDrangajokull.setOnClickListener { loadGlacierForecast("Drangajökull") }
+        btnEyjafjallajokull.setOnClickListener { loadGlacierForecast("Eyjafjallajökull") }
+        btnMyrdalsjokull.setOnClickListener { loadGlacierForecast("Mýrdalsjökull") }
+        btnVatnajokull.setOnClickListener { loadGlacierForecast("Vatnajökull") }
     }
 
     private fun loadGlacierForecast(glacierName: String) {
-        val areaId = GlacierRegionMapper.glacierToAreaId[glacierName]
+        val glacier = GlacierRegionMapper.glacierLocations[glacierName]
 
-        if (areaId == null) {
-            textView.text = "No Veður region mapping found for $glacierName."
+        if (glacier == null) {
+            textView.text = "Fann ekki staðsetningu fyrir $glacierName."
             return
         }
 
-        textView.text = "Loading forecast for $glacierName..."
+        titleView.text = glacierName
+        textView.text = "Hleð 3 daga spá fyrir $glacierName..."
 
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val region = VedurCapRetrofitInstance.api.getForecastRegion(areaId)
+                val response = VedurApiClient.glacierForecastApi.getForecast(
+                    latitude = glacier.latitude,
+                    longitude = glacier.longitude,
+                    elevation = glacier.elevation,
+                    forecastDays = 3
+                )
 
-                val message = when (glacierName) {
-                    "Drangajökull" -> "Remote glacier area in the Westfjords. Check warnings carefully."
-                    "Snæfellsjökull" -> "Western glacier. Usually accessible but watch wind."
-                    "Langjökull" -> "Large glacier with strong wind exposure."
-                    "Hofsjökull" -> "Highland glacier. Conditions can change quickly."
-                    "Eyjafjallajökull" -> "South coast glacier. Watch for wind and clouds."
-                    "Mýrdalsjökull" -> "Often cloudy and icy. Be cautious."
-                    "Vatnajökull" -> "Massive glacier in southeast Iceland. Conditions vary a lot."
-                    else -> "Glacier conditions available."
+                val currentTemp = response.current.temperature_2m
+                val currentWind = response.current.wind_speed_10m
+                val currentWeather = weatherCodeToText(response.current.weather_code)
+
+                val forecastText = buildString {
+                    appendLine("3 daga jöklaspá")
+                    appendLine()
+                    appendLine("Jökull: ${glacier.name}")
+                    appendLine()
+                    appendLine("Núna:")
+                    appendLine("• Hiti: ${format1(currentTemp)} °C")
+                    appendLine("• Vindur: ${format1(currentWind)} m/s")
+                    appendLine("• Aðstæður: $currentWeather")
+                    appendLine()
+
+                    for (i in 0 until minOf(3, response.daily.time.size)) {
+                        val date = response.daily.time[i]
+                        val maxTemp = response.daily.temperature_2m_max.getOrNull(i)
+                        val minTemp = response.daily.temperature_2m_min.getOrNull(i)
+                        val precipitation = response.daily.precipitation_sum.getOrNull(i)
+                        val snowfall = response.daily.snowfall_sum.getOrNull(i)
+                        val weatherCode = response.daily.weather_code.getOrNull(i) ?: -1
+
+                        appendLine("Dagur ${i + 1} - $date")
+                        appendLine("• Veður: ${weatherCodeToText(weatherCode)}")
+                        appendLine("• Hæsti hiti: ${format1(maxTemp)} °C")
+                        appendLine("• Lægsti hiti: ${format1(minTemp)} °C")
+                        appendLine("• Úrkoma: ${format1(precipitation)} mm")
+                        appendLine("• Snjókoma: ${format1(snowfall)} cm")
+                        appendLine()
+                    }
                 }
 
-                textView.text = """
-                    Glacier Forecast
-
-                    Glacier: $glacierName
-                    Veður region: ${region.name ?: "Unknown"}
-                    Region ID: ${region.id}
-
-                    Status:
-                    $message
-
-                    Source:
-                    Veður API (CAP)
-                """.trimIndent()
+                textView.text = forecastText.trim()
 
             } catch (e: Exception) {
                 textView.text = """
-                    Glacier Forecast
+                Tókst ekki að sækja 3 daga spá fyrir $glacierName.
 
-                    Glacier: $glacierName
-
-                    Failed to load data from Veður API.
-                    ${e.message}
-                """.trimIndent()
+                Villa:
+                ${e.message ?: "Óþekkt villa"}
+            """.trimIndent()
             }
+        }
+    }
+
+    private fun weatherCodeToText(code: Int): String {
+        return when (code) {
+            0 -> "Heiðskírt"
+            1, 2, 3 -> "Skýjað"
+            45, 48 -> "Þoka"
+            51, 53, 55 -> "Úði"
+            61, 63, 65 -> "Rigning"
+            66, 67 -> "Krapi eða ísing"
+            71, 73, 75 -> "Snjókoma"
+            77 -> "Snjókorn"
+            80, 81, 82 -> "Skúrir"
+            85, 86 -> "Snjóél"
+            95 -> "Þrumuveður"
+            96, 99 -> "Þrumuveður með hagli"
+            else -> "Óþekkt"
+        }
+    }
+
+    private fun format1(value: Double?): String {
+        return if (value == null) {
+            "-"
+        } else {
+            String.format(Locale.US, "%.1f", value)
         }
     }
 }

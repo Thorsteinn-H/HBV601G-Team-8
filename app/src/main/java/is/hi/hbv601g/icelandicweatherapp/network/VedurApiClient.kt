@@ -40,4 +40,18 @@ object VedurApiClient {
     val northernLightsApi: NorthernLightsApi by lazy {
         northernLightsRetrofit.create(NorthernLightsApi::class.java)
     }
+
+
+private const val OPEN_METEO_BASE_URL = "https://api.open-meteo.com/"
+
+private val glacierForecastRetrofit by lazy {
+    Retrofit.Builder()
+        .baseUrl(OPEN_METEO_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+}
+
+val glacierForecastApi: GlacierForecastApi by lazy {
+    glacierForecastRetrofit.create(GlacierForecastApi::class.java)
+}
 }
