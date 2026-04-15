@@ -124,8 +124,7 @@ class MapFragment: Fragment() {
         viewModel.loadEarthquakes(start)
 
         viewModel.earthquake.observe(viewLifecycleOwner) { data ->
-            val features = data.features
-            features.forEach { quake ->
+            data?.features?.forEach { quake ->
                 val cords = quake.geometry.coordinates
                 val magnitude = quake.properties.magnitude
                 if (magnitude < 1) {
@@ -182,7 +181,7 @@ class MapFragment: Fragment() {
         viewModel.loadVolcanos()
 
         viewModel.volcano.observe(viewLifecycleOwner) { data ->
-            data.forEach { volcano ->
+            data?.forEach { volcano ->
                 val name = volcano.volcano_name
                 val lat = volcano.latitude
                 val lng = volcano.longitude

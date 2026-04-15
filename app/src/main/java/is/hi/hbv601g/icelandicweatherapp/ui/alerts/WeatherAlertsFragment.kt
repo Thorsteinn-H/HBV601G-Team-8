@@ -45,6 +45,12 @@ class WeatherAlertsFragment : Fragment() {
             adapter.submitList(it)
         }
 
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                android.widget.Toast.makeText(requireContext(), it, android.widget.Toast.LENGTH_LONG).show()
+            }
+        }
+
         //trigger loading of alerts
         viewModel.loadAlerts()
     }

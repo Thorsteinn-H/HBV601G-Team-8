@@ -11,10 +11,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 object VedurApiClient {
 
     /**
-     * Base URL = https://api.vedur.is/cap/v1/
+     * Base URL = https://api.vedur.is/
      *
      */
-    private const val BASE_URL = "https://api.vedur.is"
+    private const val BASE_URL = "https://api.vedur.is/"
 
 
     /**

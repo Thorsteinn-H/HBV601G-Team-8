@@ -20,12 +20,15 @@ class MapViewModel: ViewModel()  {
 
     fun loadEarthquakes(start: String){
         viewModelScope.launch {
-            val response = vedurApi.getEarthquakes(start)
-
-            _earthquake.value = response.body()
-
+            try {
+                val response = vedurApi.getEarthquakes(start, "json")
+                if (response.isSuccessful) {
+                    _earthquake.value = response.body()
+                }
+            } catch (e: Exception) {
+                // Log or handle error
+            }
         }
-
     }
 
     private val _volcano = MutableLiveData<List<VolcanoDto>>()
@@ -33,12 +36,15 @@ class MapViewModel: ViewModel()  {
 
     fun loadVolcanos(){
         viewModelScope.launch {
-            val response = vedurApi.getVolcanos()
-
-            _volcano.value = response.body()
-
+            try {
+                val response = vedurApi.getVolcanos()
+                if (response.isSuccessful) {
+                    _volcano.value = response.body()
+                }
+            } catch (e: Exception) {
+                // Handle error
+            }
         }
-
     }
 
     // repo that handles API calls
@@ -51,8 +57,12 @@ class MapViewModel: ViewModel()  {
 
     fun loadRoads() {
         viewModelScope.launch {
-            val result = roadRepository.getRoadConditions()
-            _roads.value = result
+            try {
+                val result = roadRepository.getRoadConditions()
+                _roads.value = result
+            } catch (e: Exception) {
+                // Handle error
+            }
         }
     }
 }

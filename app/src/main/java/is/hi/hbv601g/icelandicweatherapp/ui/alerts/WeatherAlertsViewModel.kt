@@ -25,21 +25,27 @@ class WeatherAlertsViewModel(application: Application) : AndroidViewModel(applic
 
     // Internal mutable LiveData holing alert list
     private val _alerts = MutableLiveData<List<AlertDto>>()
-
-    // public immutable LiveData observed by the UI
     val alerts: LiveData<List<AlertDto>> = _alerts
+
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
 
     /**
      * loads weather allerts from the repository
      */
     fun loadAlerts() {
         viewModelScope.launch {
-
-            //fetch fresh data fromAPI
-            repository.refreshAlerts()
-
-            // Load alerts from db and expose to UI
-            _alerts.value = repository.getAlerts()
+            try {
+                //fetch fresh data fromAPI
+                repository.refreshAlerts()
+                // Load alerts from db and expose to UI
+                _alerts.value = repository.getAlerts()
+                _error.value = null
+            } catch (e: Exception) {
+                _error.value = "Failed to load alerts: ${e.message}"
+                // Even on error, try to show cached data
+                _alerts.value = repository.getAlerts()
+            }
         }
     }
 }
