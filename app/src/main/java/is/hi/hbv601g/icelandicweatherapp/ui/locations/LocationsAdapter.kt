@@ -7,7 +7,7 @@ import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemLocationsBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
-import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
 
 /**
  * RecyclerView adapter for displaying current weather for all

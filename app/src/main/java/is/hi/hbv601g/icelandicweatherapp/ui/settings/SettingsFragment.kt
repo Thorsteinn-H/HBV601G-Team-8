@@ -11,7 +11,7 @@ import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentSettingsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
-import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
 
 class SettingsFragment : Fragment() {
 

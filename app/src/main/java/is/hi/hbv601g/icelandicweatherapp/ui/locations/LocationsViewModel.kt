@@ -12,7 +12,7 @@ import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import `is`.hi.hbv601g.icelandicweatherapp.model.SunInfo
-import `is`.hi.hbv601g.icelandicweatherapp.model.TimeUtils
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.TimeUtils
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 import `is`.hi.hbv601g.icelandicweatherapp.repository.ForecastRepository
 import `is`.hi.hbv601g.icelandicweatherapp.repository.SunRepository

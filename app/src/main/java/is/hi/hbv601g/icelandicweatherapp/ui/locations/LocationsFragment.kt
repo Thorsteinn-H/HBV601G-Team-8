@@ -22,7 +22,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.FragmentLocationsBinding
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
-import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
 import kotlin.getValue
 
 /**

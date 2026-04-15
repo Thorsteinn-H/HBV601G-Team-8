@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemForecastBinding
-import `is`.hi.hbv601g.icelandicweatherapp.model.WeatherUtils
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
 /**
  * RecyclerView Adaptar responsible for displaying the full forecast for a selected location
  *

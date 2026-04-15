@@ -1,5 +1,7 @@
 package `is`.hi.hbv601g.icelandicweatherapp.model
 
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
+
 /**
  * represents the current weather information for a specific location
  */
