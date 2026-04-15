@@ -11,7 +11,7 @@ import retrofit2.http.GET
  */
 interface VedurApi {
     /**
-     * Get all active weather alerts with detail
+     * Get all active weather alerts wiht detail
      * @return List of active alerts (may be empty)
      */
     @GET("capbroker/active/detailed/all")
