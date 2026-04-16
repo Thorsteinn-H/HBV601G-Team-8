@@ -79,9 +79,10 @@ interface WeatherApi {
 interface OpenMeteoApi {
     @GET("forecast")
     suspend fun getDetailedClouds(
-        @Query("lat") lat: Double,
-        @Query("lon") lon: Double,
+        @Query("latitude") lat: Double,
+        @Query("longitude") lon: Double,
         @Query("hourly") hourly: String,
-        @Query("forecast_days") days: Int
+        @Query("forecast_days") days: Int,
+        @Query("timezone") timezone: String = "UTC"
     ): OpenMeteoResponse
 }
