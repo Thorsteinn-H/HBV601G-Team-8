@@ -1,7 +1,6 @@
 package `is`.hi.hbv601g.icelandicweatherapp.network
 
 
-import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

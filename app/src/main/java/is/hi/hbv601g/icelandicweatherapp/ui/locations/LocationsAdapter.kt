@@ -66,24 +66,28 @@ class LocationsAdapter(
                 } ?: "Hitastig: N/A"
 
             // display feels like temp
-            //            val feelsLikeText = item.feelsLike?.let {(
-            //   if(hitastigStilling==1){
-            //      "Eins og: $it °C"}
-            //  else {
-            //      val fahrenheit= WeatherUtils.calculateFahrenheit(it)
-            //      "Eins og: $fahrenheit °F"
-//
-            //              })
-//             } ?: "Eins og: N/A"
-//             binding.textFeelsLike.text = feelsLikeText
+            val feelsLikeText = item.feelsLike?.let {
+                (
+
+                        if(hitastigStilling==1){
+                            val string = "%.1f".format(it)
+                            "Eins og:  $string °C"}
+                        else {
+                            val fahrenheit= WeatherUtils.calculateFahrenheit(it)
+                            val string = "%.1f".format(fahrenheit)
+                            "Eins og: $string °F"
+
+                        })
+            } ?: "Eins og: N/A"
+             binding.textFeelsLike.text = feelsLikeText
 
             //display wind speed
-//             binding.textWind.text =
-//                 "Vindur: ${item.windSpeed ?: "N/A"} m/s"
+             binding.textWind.text =
+                 "Vindur: ${item.windSpeed ?: "N/A"} m/s"
 
             //display precipitation
-            //           binding.textPrecipitation.text =
-   //             "Úrkoma: ${item.precipitation ?: "N/A"} mm"
+                      binding.textPrecipitation.text =
+               "Úrkoma: ${item.precipitation ?: "N/A"} mm"
 
             //handle click event for this location
             binding.root.setOnClickListener {
