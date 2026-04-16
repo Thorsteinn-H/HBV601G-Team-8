@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.ui.alerts.MapViewModel
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.TimeUtils
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
@@ -16,7 +17,7 @@ class EarthquakeLayer(private val context: Context) {
     // 🔹 Load data (called once)
     fun load(viewModel: MapViewModel, lifecycleOwner: LifecycleOwner, map: MapView) {
 
-        val start = OffsetDateTime.now().minusDays(1).toString()
+        val start = OffsetDateTime.now().minusDays(7).toString()
 
         viewModel.loadEarthquakes(start)
 
@@ -34,6 +35,7 @@ class EarthquakeLayer(private val context: Context) {
                 if (magnitude < 1) return@forEach
 
                 val depth = quake.properties.depth
+                val time = TimeUtils.fancyStringFormat(quake.properties.time)
                 val lng = coords[0]
                 val lat = coords[1]
 
@@ -44,7 +46,7 @@ class EarthquakeLayer(private val context: Context) {
                 marker.position = GeoPoint(lat, lng)
                 marker.title = quake.properties.region
                 marker.subDescription =
-                    "Skjálfti af stærð: $magnitude í dýpt: $depth km"
+                    "Skjálfti af stærð: $magnitude í dýpt: $depth km um: $time"
 
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
