@@ -56,92 +56,92 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
         longitude : Double
     ){
         viewModelScope.launch {
+            try {
+                val sunInfo = try {
+                    val sunDto = sunRepository.getSun(latitude, longitude)
 
-            val sunInfo = try {
-                val sunDto = sunRepository.getSun(latitude, longitude)
-
-                SunInfo(
-                    sunrise = sunDto?.results?.sunrise,
-                    sunset = sunDto?.results?.sunset
-                )
-            } catch (e: Exception) {
-                null
-            }
-
-            _sun.value = sunInfo
-            // get the current hour formatted like the met.no
-            val hourPrefix = TimeUtils.currentUtcHour()
-            // fetch forecast for current gps location
-            val userLocationWeather = try {
-                //refresh forecast data from the API
-                forecastRepository.refreshForecast(latitude, longitude)
-
-                //Load forecast from local database
-                val forecasts = forecastRepository.loadForecasts()
-
-                    // find forecast that matches the current hour
-                    val current = forecasts.firstOrNull {
-                        it.time.startsWith(hourPrefix)
-                    }
-
-                //convert to UI model
-                CurrentLocationWeather(
-                    locationName = "Mín staðsetning",
-                    temperature = current?.temperature,
-                    windSpeed = current?.windSpeed,
-                    precipitation = current?.precipitation
-                )
-            } catch (e: Exception) {
-                null
-            }
-            // fetch forecasts for all Icelandic Locations
-            val locations = IcelandLocations.majorIcelandLocation.map { location ->
-
-                async {
-                    try{
-                        //refresh forecast data from the API
-                        forecastRepository.refreshForecast(
-                            location.latitude,
-                            location.longitude
-                        )
-
-                        //Load forecast from local database
-                        val forecasts = forecastRepository.loadForecasts()
-
-
-
-                            // find forecast that matches the current hour
-                            val current = forecasts.firstOrNull{
-                                it.time.startsWith(hourPrefix)
-                            }
-                            //convert to UI model
-                            CurrentLocationWeather(
-                                locationName = location.name,
-                                temperature = current?.temperature,
-                                windSpeed = current?.windSpeed,
-                                precipitation = current?.precipitation,
-                                relativeHumidity = current?.relativeHumidity
-                            )
-                        } catch (e: Exception) {
-
-                            // If the API/database fail, return empty val
-                            CurrentLocationWeather(
-                                locationName = location.name,
-                                temperature = null,
-                                windSpeed = null,
-                                precipitation = null,
-                                relativeHumidity = null
-                            )
-                        }
-                    }
-                }.awaitAll()
-                //publish final list to Fragment UI
-                val results = if(userLocationWeather != null) {
-                    listOf(userLocationWeather) + locations
-                } else {
-                    locations
+                    SunInfo(
+                        sunrise = sunDto?.results?.sunrise,
+                        sunset = sunDto?.results?.sunset
+                    )
+                } catch (e: Exception) {
+                    null
                 }
-                _currentWeather.value = results
+
+                _sun.value = sunInfo
+                // get the current hour formatted like the met.no
+                val hourPrefix = TimeUtils.currentUtcHour()
+                // fetch forecast for current gps location
+                val userLocationWeather = try {
+                    //refresh forecast data from the API
+                    forecastRepository.refreshForecast(latitude, longitude)
+
+                    //Load forecast from local database
+                    val forecasts = forecastRepository.loadForecasts()
+
+                        // find forecast that matches the current hour
+                        val current = forecasts.firstOrNull {
+                            it.time.startsWith(hourPrefix)
+                        }
+
+                    //convert to UI model
+                    CurrentLocationWeather(
+                        locationName = "Mín staðsetning",
+                        temperature = current?.temperature,
+                        windSpeed = current?.windSpeed,
+                        precipitation = current?.precipitation
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+                // fetch forecasts for all Icelandic Locations
+                val locations = IcelandLocations.majorIcelandLocation.map { location ->
+
+                    async {
+                        try{
+                            //refresh forecast data from the API
+                            forecastRepository.refreshForecast(
+                                location.latitude,
+                                location.longitude
+                            )
+
+                            //Load forecast from local database
+                            val forecasts = forecastRepository.loadForecasts()
+
+
+
+                                // find forecast that matches the current hour
+                                val current = forecasts.firstOrNull{
+                                    it.time.startsWith(hourPrefix)
+                                }
+                                //convert to UI model
+                                CurrentLocationWeather(
+                                    locationName = location.name,
+                                    temperature = current?.temperature,
+                                    windSpeed = current?.windSpeed,
+                                    precipitation = current?.precipitation,
+                                    relativeHumidity = current?.relativeHumidity
+                                )
+                            } catch (e: Exception) {
+
+                                // If the API/database fail, return empty val
+                                CurrentLocationWeather(
+                                    locationName = location.name,
+                                    temperature = null,
+                                    windSpeed = null,
+                                    precipitation = null,
+                                    relativeHumidity = null
+                                )
+                            }
+                        }
+                    }.awaitAll()
+                    //publish final list to Fragment UI
+                    val results = if(userLocationWeather != null) {
+                        listOf(userLocationWeather) + locations
+                    } else {
+                        locations
+                    }
+                    _currentWeather.value = results
             } catch (e: Exception) {
                 _error.value = "Failed to load weather data: ${e.message}"
             }
