@@ -1,19 +1,15 @@
 package `is`.hi.hbv601g.icelandicweatherapp.ui.locations
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import `is`.hi.hbv601g.icelandicweatherapp.data.AppDatabase
-import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.model.CurrentLocationWeather
 import `is`.hi.hbv601g.icelandicweatherapp.model.IcelandLocations
 import `is`.hi.hbv601g.icelandicweatherapp.model.SunInfo
 import `is`.hi.hbv601g.icelandicweatherapp.utilities.TimeUtils
-import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
 import `is`.hi.hbv601g.icelandicweatherapp.repository.ForecastRepository
 import `is`.hi.hbv601g.icelandicweatherapp.repository.SunRepository
 import kotlinx.coroutines.async
@@ -87,7 +83,7 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
                 //convert to UI model
                 CurrentLocationWeather(
-                    locationName = "My Location",
+                    locationName = "Mín staðsetning",
                     temperature = current?.temperature,
                     windSpeed = current?.windSpeed,
                     precipitation = current?.precipitation

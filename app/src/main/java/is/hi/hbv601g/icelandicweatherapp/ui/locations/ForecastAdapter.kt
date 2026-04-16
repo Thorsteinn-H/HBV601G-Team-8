@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import `is`.hi.hbv601g.icelandicweatherapp.data.ForecastDto
 import `is`.hi.hbv601g.icelandicweatherapp.databinding.ItemForecastBinding
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.TimeUtils
 import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
 /**
  * RecyclerView Adaptar responsible for displaying the full forecast for a selected location
@@ -46,9 +47,9 @@ class ForecastAdapter :
         fun bind(forecast: ForecastDto) {
 
             //display the forecast timestamp
-            binding.textTime.text = forecast.time
+            binding.textTime.text = TimeUtils.fancyStringFormat(forecast.time)
             val context = binding.root.context
-            val hitastigStilling = WeatherUtils.readHitastigSettings(context);
+            val hitastigStilling = WeatherUtils.readHitastigSettings(context)
 
             //display temperature in celsius
             binding.textTemperature.text =

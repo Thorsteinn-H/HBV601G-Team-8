@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import `is`.hi.hbv601g.icelandicweatherapp.R
 import `is`.hi.hbv601g.icelandicweatherapp.network.VedurApiClient
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.TimeUtils
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -42,6 +44,9 @@ class GlaciersFragment : Fragment(R.layout.fragment_glaciers) {
     private fun loadGlacierForecast(glacierName: String) {
         val glacier = GlacierRegionMapper.glacierLocations[glacierName]
 
+        val hitastigStilling = WeatherUtils.readHitastigSettings(requireContext())
+
+
         if (glacier == null) {
             textView.text = "Fann ekki staðsetningu fyrir $glacierName."
             return
@@ -69,13 +74,20 @@ class GlaciersFragment : Fragment(R.layout.fragment_glaciers) {
                     appendLine("Jökull: ${glacier.name}")
                     appendLine()
                     appendLine("Núna:")
-                    appendLine("• Hiti: ${format1(currentTemp)} °C")
+                    if(hitastigStilling==1){
+                        appendLine("• Hiti: ${format1(currentTemp)} °C")
+                    }
+                    else{
+                        val fahrenheit= WeatherUtils.calculateFahrenheit(currentTemp)
+                        appendLine("• Hiti: ${format1(fahrenheit)} °F")
+                    }
+
                     appendLine("• Vindur: ${format1(currentWind)} m/s")
                     appendLine("• Aðstæður: $currentWeather")
                     appendLine()
 
                     for (i in 0 until minOf(3, response.daily.time.size)) {
-                        val date = response.daily.time[i]
+                        val date = TimeUtils.fancyStringFormatDate(response.daily.time[i])
                         val maxTemp = response.daily.temperature_2m_max.getOrNull(i)
                         val minTemp = response.daily.temperature_2m_min.getOrNull(i)
                         val precipitation = response.daily.precipitation_sum.getOrNull(i)
@@ -84,8 +96,18 @@ class GlaciersFragment : Fragment(R.layout.fragment_glaciers) {
 
                         appendLine("Dagur ${i + 1} - $date")
                         appendLine("• Veður: ${weatherCodeToText(weatherCode)}")
-                        appendLine("• Hæsti hiti: ${format1(maxTemp)} °C")
-                        appendLine("• Lægsti hiti: ${format1(minTemp)} °C")
+                        if(hitastigStilling==1){
+                            appendLine("• Hæsti hiti: ${format1(maxTemp)} °C")
+                            appendLine("• Lægsti hiti: ${format1(minTemp)} °C")
+                        }
+                        else{
+                            val fahrenheitMax= WeatherUtils.calculateFahrenheit(maxTemp?: 0.0)
+                            appendLine("• Hæsti hiti: ${format1(fahrenheitMax)} °F")
+                            val fahrenheitMin= WeatherUtils.calculateFahrenheit(minTemp?: 0.0)
+                            appendLine("• Lægsti hiti: ${format1(fahrenheitMin)} °F")
+                        }
+
+
                         appendLine("• Úrkoma: ${format1(precipitation)} mm")
                         appendLine("• Snjókoma: ${format1(snowfall)} cm")
                         appendLine()
