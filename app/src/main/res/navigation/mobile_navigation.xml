@@ -53,12 +53,12 @@
     <fragment
         android:id="@+id/northernLightsFragment"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.northernlights.NorthernLightsFragment"
-        android:label="Northern Lights" />
+        android:label="Norðurljós" />
 
     <fragment
         android:id="@+id/glaciersFragment"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.glaciers.GlaciersFragment"
-        android:label="Glaciers" />
+        android:label="Jöklar" />
 
     <fragment
         android:id="@+id/locationDetailsFragment"
