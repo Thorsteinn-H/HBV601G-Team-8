@@ -102,6 +102,12 @@ class LocationsFragment : Fragment() {
 
  }
 
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                android.widget.Toast.makeText(requireContext(), it, android.widget.Toast.LENGTH_LONG).show()
+            }
+        }
+
         //initialize the fusedlocationclient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         //trigger loading of weather data for all locations starting with current

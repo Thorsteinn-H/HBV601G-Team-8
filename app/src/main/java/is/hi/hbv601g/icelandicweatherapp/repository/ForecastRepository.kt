@@ -22,7 +22,7 @@ class ForecastRepository(
     suspend fun refreshForecast(
         latitude: Double,
         longitude: Double
-    ){
+    ): List<ForecastDto> {
         // raw forecasst data from the API
         val response = MetApiClient.api.getForecast(latitude,longitude)
 
@@ -33,6 +33,8 @@ class ForecastRepository(
         forecastDao.clearForecasts()
         // loads with new forecasts
         forecastDao.insertForecasts(forecasts)
+        
+        return forecasts
     }
 
     /**

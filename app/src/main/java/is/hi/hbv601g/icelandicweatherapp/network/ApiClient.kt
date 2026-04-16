@@ -1,7 +1,11 @@
 package `is`.hi.hbv601g.icelandicweatherapp.network
 
+import `is`.hi.hbv601g.icelandicweatherapp.data.CloudResponse
+import `is`.hi.hbv601g.icelandicweatherapp.data.OpenMeteoResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Defines the API base URL
@@ -39,4 +43,46 @@ object ApiClient {
     val northernLightsApi: NorthernLightsApi by lazy {
         northernLightsRetrofit.create(NorthernLightsApi::class.java)
     }
+
+    private const val WEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    private val weatherRetrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(WEATHER_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    val weatherApi: WeatherApi by lazy {
+        weatherRetrofit.create(WeatherApi::class.java)
+    }
+
+    private const val OPEN_METEO_BASE_URL = "https://api.open-meteo.com/v1/"
+    private val openMeteoRetrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(OPEN_METEO_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    val openMeteoApi: OpenMeteoApi by lazy {
+        openMeteoRetrofit.create(OpenMeteoApi::class.java)
+    }
+}
+
+interface WeatherApi {
+    @GET("forecast")
+    suspend fun getCloudForecast(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("appid") apiKey: String
+    ): CloudResponse
+}
+
+interface OpenMeteoApi {
+    @GET("forecast")
+    suspend fun getDetailedClouds(
+        @Query("latitude") lat: Double,
+        @Query("longitude") lon: Double,
+        @Query("hourly") hourly: String,
+        @Query("forecast_days") days: Int,
+        @Query("timezone") timezone: String = "UTC"
+    ): OpenMeteoResponse
 }

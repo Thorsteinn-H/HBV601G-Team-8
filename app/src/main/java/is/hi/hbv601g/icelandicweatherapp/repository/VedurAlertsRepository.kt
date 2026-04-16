@@ -45,7 +45,10 @@ class VedurAlertsRepository {
     suspend fun getEarthquakes(start: String): QuakeDto? {
         return try {
             // network request with start time filter
-            val response = VedurApiClient.api.getEarthquakes(start)
+            val response = VedurApiClient.api.getEarthquakes(
+                start,
+                format = "json"
+            )
             // return body if successful
             if (response.isSuccessful) response.body() else null
         } catch (e: Exception) {
