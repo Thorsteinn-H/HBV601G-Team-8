@@ -42,6 +42,9 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
     val sun: LiveData<SunInfo?> = _sun
 
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
+
     /**
      * Loads the current-hout weather for major Icelandic locations
      * get the current hour
@@ -76,10 +79,10 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
                 //Load forecast from local database
                 val forecasts = forecastRepository.loadForecasts()
 
-                // find forecast that matches the current hour
-                val current = forecasts.firstOrNull {
-                    it.time.startsWith(hourPrefix)
-                }
+                    // find forecast that matches the current hour
+                    val current = forecasts.firstOrNull {
+                        it.time.startsWith(hourPrefix)
+                    }
 
                 //convert to UI model
                 CurrentLocationWeather(
@@ -107,38 +110,41 @@ class LocationsViewModel(application: Application) : AndroidViewModel(applicatio
 
 
 
-                        // find forecast that matches the current hour
-                        val current = forecasts.firstOrNull{
-                            it.time.startsWith(hourPrefix)
-                        }
-                        //convert to UI model
-                        CurrentLocationWeather(
-                            locationName = location.name,
-                            temperature = current?.temperature,
-                            windSpeed = current?.windSpeed,
-                            precipitation = current?.precipitation,
-                            relativeHumidity = current?.relativeHumidity
-                        )
-                    } catch (e: Exception) {
+                            // find forecast that matches the current hour
+                            val current = forecasts.firstOrNull{
+                                it.time.startsWith(hourPrefix)
+                            }
+                            //convert to UI model
+                            CurrentLocationWeather(
+                                locationName = location.name,
+                                temperature = current?.temperature,
+                                windSpeed = current?.windSpeed,
+                                precipitation = current?.precipitation,
+                                relativeHumidity = current?.relativeHumidity
+                            )
+                        } catch (e: Exception) {
 
-                        // If the API/database fail, return empty val
-                        CurrentLocationWeather(
-                            locationName = location.name,
-                            temperature = null,
-                            windSpeed = null,
-                            precipitation = null,
-                            relativeHumidity = null
-                        )
+                            // If the API/database fail, return empty val
+                            CurrentLocationWeather(
+                                locationName = location.name,
+                                temperature = null,
+                                windSpeed = null,
+                                precipitation = null,
+                                relativeHumidity = null
+                            )
+                        }
                     }
+                }.awaitAll()
+                //publish final list to Fragment UI
+                val results = if(userLocationWeather != null) {
+                    listOf(userLocationWeather) + locations
+                } else {
+                    locations
                 }
-            }.awaitAll()
-            //publish final list to Fragment UI
-            val results = if(userLocationWeather != null) {
-                listOf(userLocationWeather) + locations
-            } else {
-                locations
+                _currentWeather.value = results
+            } catch (e: Exception) {
+                _error.value = "Failed to load weather data: ${e.message}"
             }
-            _currentWeather.value = results
         }
     }
 

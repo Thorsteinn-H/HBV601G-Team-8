@@ -27,7 +27,6 @@ class MapViewModel: ViewModel()  {
                 _earthquake.value = response
             }
         }
-
     }
 
     private val _volcano = MutableLiveData<List<VolcanoDto>>()
@@ -38,7 +37,6 @@ class MapViewModel: ViewModel()  {
             val response = vedurAlertsRepository.getVolcanos()
             _volcano.value = response
         }
-
     }
 
     // repo that handles API calls

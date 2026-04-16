@@ -13,7 +13,12 @@ class RoadRepository {
     suspend fun getRoadConditions(): List<RoadCondition>{
         return try {
             //retrofit network reques
-            val response = RoadApiClient.api.getRoadConditions()
+            val response = RoadApiClient.api.getRoadConditions(
+                where = "1=1",
+                outFields = "*",
+                returnGeometry = true,
+                format = "json"
+            )
 
             //convert each DTO into a clean domain model
             response.features.map{ feature ->

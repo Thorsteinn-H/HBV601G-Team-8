@@ -30,13 +30,13 @@ interface VedurAlertsApi {
     @GET("weather/observations/aws/10min/latest")
     suspend fun getForecastToday(
         @Query("region_id") region: Int,
-        @Query("parameters") parameters: String="basic",
+        @Query("parameters") parameters: String,
     ): Response<List<ForecastDto>>
 
     @GET("/quakes/events")
         suspend fun getEarthquakes(
             @Query("start_time") start: String,
-            @Query("format") format: String="json"
+            @Query("format") format: String
         ): Response<QuakeDto>
 
 
