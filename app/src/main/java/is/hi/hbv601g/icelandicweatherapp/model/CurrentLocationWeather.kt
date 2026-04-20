@@ -1,0 +1,20 @@
+package `is`.hi.hbv601g.icelandicweatherapp.model
+
+import `is`.hi.hbv601g.icelandicweatherapp.utilities.WeatherUtils
+
+/**
+ * represents the current weather information for a specific location
+ */
+data class CurrentLocationWeather(
+    val locationName: String, // name of the location
+    val temperature: Double?,  // current temp in Celsius by default
+    val windSpeed: Double?, // windspeed in meter per second
+    val precipitation: Double?, // precipitation in millimeters
+    val relativeHumidity: Double? = null // relative humidity in percentage
+) {
+    /**
+     * Calculates the apparent "feels like" temperature
+     */
+    val feelsLike: Double?
+        get() = WeatherUtils.calculateFeelsLike(temperature, windSpeed, relativeHumidity)
+}

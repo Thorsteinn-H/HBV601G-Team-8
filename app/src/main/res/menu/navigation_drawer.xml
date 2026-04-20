@@ -4,22 +4,23 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <!--
         <item
-            android:id="@+id/nav_transform"
+            android:id="@+id/nav_attractions"
             android:icon="@drawable/ic_camera_black_24dp"
-            android:title="@string/menu_transform" />
+            android:title="@string/menu_attractions" />
+            -->
         <item
-            android:id="@+id/nav_reflow"
+            android:id="@+id/nav_locations"
             android:icon="@drawable/ic_gallery_black_24dp"
-            android:title="@string/menu_reflow" />
+            android:title="@string/menu_locations" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_slideshow_black_24dp"
-            android:title="@string/menu_slideshow" />
-        <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/nav_map_menu"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/menu_settings" />
+            android:title="@string/menu_map" />
+
+
         <item
             android:id="@+id/northernLightsFragment"
             android:title="Northern Lights"

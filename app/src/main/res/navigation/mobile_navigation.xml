@@ -3,38 +3,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_transform">
+    app:startDestination="@+id/nav_locations">
 
     <fragment
-        android:id="@+id/nav_transform"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.favourites.FavouritesFragment"
-        android:label="@string/menu_transform"
-        tools:layout="@layout/fragment_favourites" />
+        android:id="@+id/nav_attractions"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.attractions.AttractionsMenuFragment"
+        android:label="@string/menu_attractions"
+        tools:layout="@layout/fragment_attractions_menu">
+
+        <action
+            android:id="@+id/action_attractions_to_glacier"
+            app:destination="@+id/glacierFragment"/>
+
+        <action
+            android:id="@+id/action_attractions_to_northernLights"
+            app:destination="@+id/northernLightsFragment"/>
+
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_reflow"
+        android:id="@+id/glacierFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.attractions.GlacierFragment"
+        android:label="@string/glacier_attraction"/>
+
+    <fragment
+        android:id="@+id/nav_locations"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.locations.LocationsFragment"
-        android:label="@string/menu_reflow"
-        tools:layout="@layout/fragment_locations" />
+        android:label="@string/menu_locations"
+        tools:layout="@layout/fragment_locations">
+
+        <action
+            android:id="@+id/action_locationsFragment_to_locationDetailsFragment"
+            app:destination="@id/locationDetailsFragment"/>
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="is.hi.hbv601g.icelandicweatherapp.ui.user.UserFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_user" />
+        android:id="@+id/nav_map_menu"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.alerts.MapFragment"
+        android:label="@string/menu_alerts"
+        tools:layout="@layout/fragment_map_menu" />
+
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+
     <fragment
         android:id="@+id/northernLightsFragment"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.northernlights.NorthernLightsFragment"
-        android:label="Northern Lights" />
+        android:label="Norðurljós" />
+
     <fragment
         android:id="@+id/glaciersFragment"
         android:name="is.hi.hbv601g.icelandicweatherapp.ui.glaciers.GlaciersFragment"
-        android:label="Glaciers" />
+        android:label="Jöklar" />
+
+    <fragment
+        android:id="@+id/locationDetailsFragment"
+        android:name="is.hi.hbv601g.icelandicweatherapp.ui.locations.LocationDetailsFragment"
+        android:label="Forecast"
+        tools:layout="@layout/fragment_location_details">
+
+        <argument
+            android:name="locationName"
+            app:argType="string" />
+
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+
+    </fragment>
+
 
 </navigation>

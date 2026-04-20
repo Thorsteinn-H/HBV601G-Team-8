@@ -28,11 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab?.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
+
 
         val navHostFragment =
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment?)!!
@@ -41,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding.navView?.let {
             appBarConfiguration = AppBarConfiguration(
                 setOf(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings,R.id.northernLightsFragment, R.id.glaciersFragment,
-                ),
+                    R.id.nav_map_menu, R.id.nav_locations,
+                    R.id.nav_settings, R.id.northernLightsFragment, R.id.glaciersFragment),
                 binding.drawerLayout
             )
             setupActionBarWithNavController(navController, appBarConfiguration)
@@ -52,7 +48,8 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.contentMain.bottomNavView?.let {
             appBarConfiguration = AppBarConfiguration(
                 setOf(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow,R.id.northernLightsFragment,R.id.glaciersFragment,
+                    R.id.northernLightsFragment,R.id.glaciersFragment,
+                    R.id.nav_map_menu, R.id.nav_locations
                 )
             )
             setupActionBarWithNavController(navController, appBarConfiguration)
